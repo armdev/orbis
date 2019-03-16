@@ -4,6 +4,9 @@ zuul:
     auth:
       path: /auth/**
       url: http://auth:4001
+    box:
+      path: /box/**
+      url: http://box:4002
     register:
       path: /register/**
       url: http://register:4004  
@@ -23,6 +26,11 @@ management:
 spring:
   application:
     name: zuul
+  servlet:
+   multipart:
+      max-file-size: 5MB
+      max-request-size: 5MB
+    
  
     
 eureka:

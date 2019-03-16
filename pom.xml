@@ -7,11 +7,12 @@
     <packaging>pom</packaging>
     <modules>        
         <module>sdk</module>
-        <module>auth</module>
+        <module>auth</module>	
         <module>zuul</module>       
         <module>register</module>      
         <module>profile</module>	
         <module>eureka</module> 
+        <module>box</module>
         <module>orbis</module>             
     </modules>
     <properties>

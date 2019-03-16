@@ -74,6 +74,36 @@ services:
       - orbis
 
 
+  box:
+    image: box   
+    build: ./box
+    container_name: box
+    restart: always
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "10"
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 120s
+    links:      
+      - mongodb 
+      - eureka
+    depends_on:     
+      - mongodb
+      - eureka     
+    ports:
+      - '4002:4002'
+    volumes:
+      - /opt/box/logs/:/opt/box/logs
+      - /opt/filestorage/:/opt/filestorage/
+    networks:
+      - orbis
+
+
   register:
     image: register   
     build: ./register
