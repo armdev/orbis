@@ -21,12 +21,12 @@
             <p:panel header="Registration" styleClass="panel-login">
                 <div class="ui-g-12" style="padding-top:35px;">                        
                     <p:inputText value="#{loginBean.user.firstname}" id="firstname" placeholder="#{i18n.firstname}" style="width:60%;" required="true" requiredMessage="#{i18n.mandatory}">                         
-                        <f:validateLength maximum="100"/>                            
+                        <f:validateLength maximum="50"/>                            
                     </p:inputText>     
                 </div>                    
                 <div class="ui-g-12" style="padding-top:10px;">                        
                     <p:inputText value="#{loginBean.user.lastname}" id="lastname" placeholder="#{i18n.lastname}" style="width:60%;" required="true" requiredMessage="#{i18n.mandatory}">                         
-                        <f:validateLength maximum="100"/>                            
+                        <f:validateLength maximum="50"/>                            
                     </p:inputText>     
                 </div>
                 <div class="ui-g-12" style="padding-top:10px;">                        
@@ -48,7 +48,7 @@
                 </div>
                 <div class="ui-g-12" style="padding-top:10px;">                        
                     <p:inputText  id="mobileno" placeholder="#{i18n.mobileno}" value="#{loginBean.user.mobileno}" style="width:60%;" required="true" requiredMessage="#{i18n.mandatory}">                         
-                        <f:validateLength minimum="8" maximum="20"/>                            
+                        <f:validateLength minimum="6" maximum="20"/>                            
                     </p:inputText>     
                 </div>                                   
                 <div class="ui-g-2"></div>                   

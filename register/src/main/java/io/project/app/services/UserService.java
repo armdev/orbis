@@ -27,8 +27,7 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    @Autowired
-    private FriendService friendService;
+  
 
     @Autowired
     private MongoTemplate mongoTemplate;
@@ -37,7 +36,7 @@ public class UserService {
         user.setStatus(CommonConstants.ACTIVATED);
         User savedUser = userRepository.save(user);
         UserData userData = new UserData(savedUser.getId(), savedUser.getFirstname(), savedUser.getLastname());
-        friendService.sendUserData(userData);
+        
         return savedUser;
     }
 
