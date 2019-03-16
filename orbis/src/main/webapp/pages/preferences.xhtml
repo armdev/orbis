@@ -1,0 +1,141 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"    
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"     
+      xmlns:jsf="http://xmlns.jcp.org/jsf"         
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"   
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">   
+
+    <f:view contracts="default" encoding="UTF-8" transient="false">
+        <ui:composition template="/template.xhtml">  
+            <ui:define name="head">
+                <style type="text/css">
+                    .grid-pad .ui-panelgrid-content .ui-panelgrid-cell.ui-grid-col-12 {
+                        padding-bottom: 10px;
+                    }
+                </style>
+            </ui:define>
+            <ui:define name="content">
+                <p:growl/>
+                <div class="ui-g ui-fluid">
+                    <div class="ui-g-12 ui-lg-6">                        
+                        <h:form id="updateprofile" prependId="false" rendered="#{facesContext.externalContext.sessionMap.get('DR') != null or facesContext.externalContext.sessionMap.get('IO') != null}">
+                            <div class="card">
+                                <h1>Save or Update Preferences</h1>                              
+                                <p:growl id="messages" showDetail="true" life="2000" />
+                                <p:panelGrid columns="1" layout="grid" style="border:0px !important; background:none;" styleClass="ui-panelgrid-blank">                                  
+
+                                    <p:inputText placeholder="DrivingLicenseNumber" title="DrivingLicenseNumber" required="true" value="#{preferencesBean.driverPreferences.drivingLicenseNumber}">                                       
+                                        <f:validateRequired/>
+                                        <f:validateLength maximum="100"/>                            
+                                    </p:inputText>  
+                                    <p:inputText placeholder="SSN" required="true" title="SSN"  value="#{preferencesBean.driverPreferences.ssn}">                                       
+                                        <f:validateRequired/>
+                                        <f:validateLength maximum="20"/>                            
+                                    </p:inputText>  
+                                    <p:inputText placeholder="StartLocation" id="startLocation" title="StartLocation" required="true" value="#{preferencesBean.driverPreferences.startLocation}">                                       
+                                        <f:validateRequired/>
+                                        <f:validateLength maximum="100"/>                            
+                                    </p:inputText>  
+                                    <p:commandButton id="btn" type="button" icon="ui-icon-pin-s" value="Choose Start Location" onclick="PF('dlg').show();" />
+
+                                    <p:dialog id="gmapDialog"  widgetVar="dlg" width="625" height="400" modal="true">
+                                        <p:gmap id="geoMap" center="37.0902,-95.7129" zoom="5" type="ROADMAP" style="width:100%;height:400px">
+                                            <p:ajax event="pointSelect" listener="#{preferencesBean.onPointSelect}" update="messages startLocation" />
+                                        </p:gmap>
+                                    </p:dialog>
+
+
+
+                                    <p:inputText placeholder="HomeLocation" id="homeLocation" required="true" title="HomeLocation" value="#{preferencesBean.driverPreferences.homeLocation}">                                       
+                                        <f:validateRequired/>
+                                        <f:validateLength maximum="100"/>                            
+                                    </p:inputText> 
+                                     <p:commandButton id="btn1" type="button" icon="ui-icon-pin-s" value="Choose Home Location" onclick="PF('dlg1').show();" />
+
+                                    <p:dialog id="gmapDialog1"  widgetVar="dlg1" width="625" height="400" modal="true">
+                                        <p:gmap id="geoMap1" center="37.0902,-95.7129" zoom="5" type="ROADMAP" style="width:100%;height:400px">
+                                            <p:ajax event="pointSelect" listener="#{preferencesBean.onPointSelect1}" update="messages homeLocation" />
+                                        </p:gmap>
+                                    </p:dialog>
+                                    
+                                    <p:inputText placeholder="MaxDeadHead" required="true" title="MaxDeadHead" value="#{preferencesBean.driverPreferences.maxdeadHead}">                                       
+                                        <f:validateRequired/>
+                                        <f:validateLength maximum="100"/>                            
+                                    </p:inputText> 
+                                    <p:inputText placeholder="MaxdispatchDistance" title="MaxdispatchDistance" required="true" value="#{preferencesBean.driverPreferences.maxdispatchDistance}">                                       
+                                        <f:validateRequired/>
+                                        <f:validateLength maximum="100"/>                            
+                                    </p:inputText> 
+                                    <p:inputText placeholder="TrailerType" required="true" title="TrailerType" value="#{preferencesBean.driverPreferences.trailerType}">                                       
+                                        <f:validateRequired/>
+                                        <f:validateLength maximum="100"/>                            
+                                    </p:inputText> 
+                                    <p:inputText placeholder="TrailerLength" required="true" value="#{preferencesBean.driverPreferences.trailerLength}">                                       
+                                        <f:validateRequired/>
+                                        <f:validateLength maximum="100"/>                            
+                                    </p:inputText>
+                                    <p:inputText placeholder="HostType" required="true" title="HostType" value="#{preferencesBean.driverPreferences.hostType}">                                       
+                                        <f:validateRequired/>
+                                        <f:validateLength maximum="100"/>                            
+                                    </p:inputText>
+                                    <p:inputText placeholder="LoadType" required="true" title="LoadType" value="#{preferencesBean.driverPreferences.loadType}">                                       
+                                        <f:validateRequired/>
+                                        <f:validateLength maximum="100"/>                            
+                                    </p:inputText>
+
+                                    <p:inputText placeholder="RemainingHOSTime" title="RemainingHOSTime" required="true" value="#{preferencesBean.driverPreferences.remainingHOSTime}">                                       
+                                        <f:validateRequired/>
+                                        <f:validateLength maximum="100"/>                            
+                                    </p:inputText>
+                                    <p:inputText placeholder="RemainingDriveTime" title="RemainingDriveTime" required="true" value="#{preferencesBean.driverPreferences.remainingDriveTime}">                                       
+                                        <f:validateRequired/>
+                                        <f:validateLength maximum="100"/>                            
+                                    </p:inputText>
+                                    <p:inputText placeholder="RemainingDutyTime" required="true" value="#{preferencesBean.driverPreferences.remainingDutyTime}">                                       
+                                        <f:validateRequired/>
+                                        <f:validateLength maximum="100"/>                            
+                                    </p:inputText>
+                                    <p:inputText placeholder="CompanyName" required="true" title="CompanyName" readonly="true" value="#{preferencesBean.driverPreferences.companyName}">                                       
+                                        <f:validateRequired/>
+                                        <f:validateLength maximum="100"/>                            
+                                    </p:inputText>
+
+                                    <p:inputText placeholder="ShipmenType" title="ShipmenType" required="true" readonly="false" value="#{preferencesBean.driverPreferences.shipmentType}">                                       
+                                        <f:validateRequired/>
+                                        <f:validateLength maximum="100"/>                            
+                                    </p:inputText>
+
+                                    <p:inputText placeholder="RatePerMile" title="RatePerMile" required="true" readonly="false" value="#{preferencesBean.driverPreferences.ratePerMile}">                                       
+                                        <f:validateRequired/>
+                                        <f:validateLength maximum="100"/>                            
+                                    </p:inputText>
+                                    <p:inputText placeholder="HoursOfServiceType" title="HoursOfServiceType" required="true" readonly="false" value="#{preferencesBean.driverPreferences.hoursOfServiceType}">                                       
+                                        <f:validateRequired/>
+                                        <f:validateLength maximum="100"/>                            
+                                    </p:inputText>
+                                    <p:inputText placeholder="PreferredSleeperBirth" title="PreferredSleeperBirth" required="true" readonly="false" value="#{preferencesBean.driverPreferences.preferredSleeperBirth}">                                       
+                                        <f:validateRequired/>
+                                        <f:validateLength maximum="20"/>                            
+                                    </p:inputText>
+                                    <p:inputText placeholder="MinimumPay" required="true" title="MinimumPay" readonly="false" value="#{preferencesBean.driverPreferences.minimumPay}">                                       
+                                        <f:validateRequired/>
+                                        <f:validateLength maximum="20"/>                            
+                                    </p:inputText>
+                                    <p:inputText placeholder="MaximumShipmentWeight" title="MaximumShipmentWeight"  required="true" readonly="false" value="#{preferencesBean.driverPreferences.maximumShipmentWeight}">                                       
+                                        <f:validateRequired/>
+                                        <f:validateLength maximum="20"/>                            
+                                    </p:inputText>
+                                </p:panelGrid>
+                                <p:commandButton type="submit" ajax="false" value="Save or Update" action="#{preferencesBean.saveOrUpdate()}" icon="fa  Fs16 White" />
+                            </div>
+                        </h:form>
+                    </div>
+                </div>
+            </ui:define>
+        </ui:composition>
+    </f:view>
+</html>
