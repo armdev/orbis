@@ -1,0 +1,11 @@
+/media/armena/Data/orbis-web-app/orbis-app/auth/src/main/java/io/project/app/repositories/UserRepository.java
+/media/armena/Data/orbis-web-app/orbis-app/auth/src/main/java/io/project/app/dto/ResponseMessage.java
+/media/armena/Data/orbis-web-app/orbis-app/auth/src/main/java/io/project/app/exceptions/BadRequestException.java
+/media/armena/Data/orbis-web-app/orbis-app/auth/src/main/java/io/project/app/dto/Claim.java
+/media/armena/Data/orbis-web-app/orbis-app/auth/src/main/java/io/project/app/services/UserService.java
+/media/armena/Data/orbis-web-app/orbis-app/auth/src/main/java/io/project/app/exceptions/RestExceptionHandler.java
+/media/armena/Data/orbis-web-app/orbis-app/auth/src/main/java/io/project/app/SwaggerConfig.java
+/media/armena/Data/orbis-web-app/orbis-app/auth/src/main/java/io/project/app/exceptions/ExceptionResponse.java
+/media/armena/Data/orbis-web-app/orbis-app/auth/src/main/java/io/project/app/exceptions/NotFoundException.java
+/media/armena/Data/orbis-web-app/orbis-app/auth/src/main/java/io/project/app/AuthApplication.java
+/media/armena/Data/orbis-web-app/orbis-app/auth/src/main/java/io/project/app/resources/UserController.java

@@ -1,0 +1,138 @@
+version: "3.3"
+
+services:  
+
+  eureka:
+    image: eureka   
+    build: ./eureka
+    container_name: eureka
+    ports:
+      - '8761:8761'
+    volumes:
+      - /opt/eureka/logs/:/opt/eureka/logs
+    networks:
+      - orbis
+
+  zuul:
+    image: zuul    
+    build: ./zuul
+    container_name: zuul
+    links:
+      - eureka 
+    volumes:
+      - /opt/zuul/logs/:/opt/zuul/logs     
+    ports:
+      - '8079:8079'
+    networks:
+      - orbis
+
+  mongodb:      
+    build: ./mongodb
+    image: mongodb
+    container_name: mongodb    
+    volumes:
+      - /opt/mongobing/data:/data/db
+      - /opt/mongobing/logs:/data/logs
+    ports:
+      - 27017:27017
+    restart: always
+    environment:
+      - MONGO_INITDB_ROOT_PASSWORD=Abcdf
+      - MONGO_INITDB_ROOT_USERNAME=BingoBongo
+    command: mongod
+    networks:
+      orbis:
+        aliases:
+          - mongodb
+
+  auth:
+    image: auth   
+    build: ./auth
+    container_name: auth
+    restart: always
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "10"
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 120s
+    links:      
+      - mongodb 
+      - eureka
+    depends_on:     
+      - mongodb
+      - eureka     
+    ports:
+      - '4001:4001'
+    volumes:
+      - /opt/auth/logs/:/opt/auth/logs
+    networks:
+      - orbis
+
+
+  register:
+    image: register   
+    build: ./register
+    container_name: register
+    restart: always
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "10"
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 120s
+    links:      
+      - mongodb 
+      - eureka
+    depends_on:     
+      - mongodb
+      - eureka     
+    ports:
+      - '4004:4004'
+    volumes:
+      - /opt/register/logs/:/opt/register/logs
+    networks:
+      - orbis
+      
+     
+      
+  profile:
+    image: profile   
+    build: ./profile
+    container_name: profile
+    restart: always
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "10"
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 120s
+    links:      
+      - mongodb 
+      - eureka
+    depends_on:     
+      - mongodb
+      - eureka     
+    ports:
+      - '4006:4006'
+    volumes:
+      - /opt/profile/logs/:/opt/profile/logs
+    networks:
+      - orbis
+
+
+networks:
+  orbis:
+    driver: bridge
