@@ -8,7 +8,7 @@ import javax.inject.Named;
 @SessionScoped
 public class GuestPreferences implements Serializable {
 
-    private String theme = "blue";
+    private String theme = "green";
 
     public String getTheme() {
         return theme;

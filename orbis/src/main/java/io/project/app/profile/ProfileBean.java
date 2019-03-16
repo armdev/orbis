@@ -1,7 +1,7 @@
-package com.front.web.profile;
+package io.project.app.profile;
 
-import com.front.web.client.UserAuthClient;
-import com.front.web.handlers.SessionContext;
+import io.project.app.unicorn.AuthClient;
+import io.project.app.security.SessionContext;
 import io.project.app.domain.User;
 
 
@@ -24,7 +24,7 @@ public class ProfileBean implements Serializable {
     private static final Logger LOGGER = Logger.getLogger(ProfileBean.class);
 
     @Inject
-    private UserAuthClient userAuthClient;
+    private AuthClient userAuthClient;
 
     @Inject
     private SessionContext sessionContext = null;

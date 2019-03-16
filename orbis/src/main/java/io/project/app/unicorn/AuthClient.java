@@ -1,6 +1,4 @@
-package com.front.web.client;
-
-
+package io.project.app.unicorn;
 
 import io.project.app.domain.User;
 import io.project.app.dto.Login;
@@ -24,24 +22,24 @@ import org.apache.log4j.Logger;
 
 @Named
 @ApplicationScoped
-public class UserAuthClient implements Serializable {
+public class AuthClient implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private static final Logger log = Logger.getLogger(UserAuthClient.class);
-    private String BASE_URL = getBundle().getString("gateway");
+    private static final Logger LOG = Logger.getLogger(AuthClient.class);
+    private final String BASE_URL = getBundle().getString("gateway");
 
-    public UserAuthClient() {
+    public AuthClient() {
 
     }
 
     @PostConstruct
     public void init() {
-        log.debug("UserAuthClient called");
+        LOG.debug("UserAuthClient called");
     }
 
     public User getUserByEmail(String email) {
-        log.info("UserAuthClient: getUserByEmail called@@@@ " + email);
+        LOG.info("UserAuthClient: getUserByEmail called@@@@ " + email);
         User model = new User();
         long startTime = System.currentTimeMillis();
         try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
@@ -55,15 +53,15 @@ public class UserAuthClient implements Serializable {
                 }
             }
             long elapsedTime = System.currentTimeMillis() - startTime;
-            log.info("getUserById request/response time in milliseconds: " + elapsedTime);
+            LOG.info("getUserById request/response time in milliseconds: " + elapsedTime);
         } catch (IOException e) {
-            log.error("Exception caught.", e);
+            LOG.error("Exception caught.", e);
         }
         return model;
     }
 
     public User getUserById(String userId) {
-        log.info("UserAuthClient: getUserById called@@@@ " + userId);
+        LOG.info("UserAuthClient: getUserById called@@@@ " + userId);
         User model = new User();
         long startTime = System.currentTimeMillis();
         try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
@@ -77,16 +75,16 @@ public class UserAuthClient implements Serializable {
                 }
             }
             long elapsedTime = System.currentTimeMillis() - startTime;
-            log.info("getUserById request/response time in milliseconds: " + elapsedTime);
+            LOG.info("getUserById request/response time in milliseconds: " + elapsedTime);
         } catch (IOException e) {
-            log.error("Exception caught.", e);
+            LOG.error("Exception caught.", e);
         }
         return model;
     }
 
     @SuppressWarnings("unchecked")
     public User userLogin(Login model) {
-        log.info("UserAuthClient: userLogin called ");
+        LOG.info("UserAuthClient: userLogin called ");
         User returnedModel = new User();
         try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
             HttpPost request = new HttpPost(BASE_URL + "/auth/api/v2/users/auth");
@@ -99,16 +97,16 @@ public class UserAuthClient implements Serializable {
             HttpEntity entity = response.getEntity();
             long startTime = System.currentTimeMillis();
             try (CloseableHttpResponse httpResponse = httpClient.execute(request)) {
-                log.info("userLogin httpResponse.getStatusLine().getStatusCode() " + httpResponse.getStatusLine().getStatusCode());
+                LOG.info("userLogin httpResponse.getStatusLine().getStatusCode() " + httpResponse.getStatusLine().getStatusCode());
                 if (httpResponse.getStatusLine().getStatusCode() == 200) {
                     returnedModel = GsonConverter.fromJson(EntityUtils.toString(httpResponse.getEntity()), User.class);
                 }
             }
             long elapsedTime = System.currentTimeMillis() - startTime;
-            log.info("userLogin request/response time in milliseconds: " + elapsedTime);
+            LOG.info("userLogin request/response time in milliseconds: " + elapsedTime);
 
         } catch (IOException e) {
-            log.error("Exception caught.", e);
+            LOG.error("Exception caught.", e);
         }
         return returnedModel;
     }
@@ -117,7 +115,7 @@ public class UserAuthClient implements Serializable {
     public User userRegistration(User model) {
         User returnedModel = new User();
         try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
-            log.info("UserAuthClient: userRegistration ");
+            LOG.info("UserAuthClient: userRegistration ");
             HttpPost request = new HttpPost(BASE_URL + "/register/api/v2/users/register");
 
             String toJson = GsonConverter.toJson(model);
@@ -127,15 +125,15 @@ public class UserAuthClient implements Serializable {
             request.setEntity(params);
             long startTime = System.currentTimeMillis();
             try (CloseableHttpResponse httpResponse = httpClient.execute(request)) {
-                log.info("userRegistration status code " + httpResponse.getStatusLine().getStatusCode());
+                LOG.info("userRegistration status code " + httpResponse.getStatusLine().getStatusCode());
                 if (httpResponse.getStatusLine().getStatusCode() == 200) {
                     returnedModel = GsonConverter.fromJson(EntityUtils.toString(httpResponse.getEntity()), User.class);
                 }
             }
             long elapsedTime = System.currentTimeMillis() - startTime;
-            log.info("userRegistration request/response time in milliseconds: " + elapsedTime);
+            LOG.info("userRegistration request/response time in milliseconds: " + elapsedTime);
         } catch (IOException e) {
-            log.error("Exception caught.", e);
+            LOG.error("Exception caught.", e);
         }
         return returnedModel;
     }
@@ -144,7 +142,7 @@ public class UserAuthClient implements Serializable {
 //    public UserModel updateUser(UserModel model) {
 //        UserModel userModel = new UserModel();
 //        try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
-//            log.debug("UserAuthClient: updateUser called ");
+//            LOG.debug("AuthClient: updateUser called ");
 //            HttpPut request = new HttpPut(AUTH_SERVICE_PATH + "update");
 //            JSONObject json = new JSONObject();
 //            json.put("id", model.getId());
@@ -152,7 +150,7 @@ public class UserAuthClient implements Serializable {
 //            json.put("lastname", model.getLastname());
 //            json.put("email", model.getEmail());
 //            json.put("mobileno", model.getMobileno());
-//            log.info("Token passed " + model.getToken());
+//            LOG.info("Token passed " + model.getToken());
 //            json.put("token", model.getToken());
 //            StringEntity params = new StringEntity(json.toString(), "UTF-8");
 //            request.addHeader("content-type", "application/json;charset=UTF-8");
@@ -169,15 +167,15 @@ public class UserAuthClient implements Serializable {
 //                }
 //            }
 //            long elapsedTime = System.currentTimeMillis() - startTime;
-//            log.info("updateUser request/response time in milliseconds: " + elapsedTime);
+//            LOG.info("updateUser request/response time in milliseconds: " + elapsedTime);
 //        } catch (IOException e) {
-//            log.error("Exception caught.", e);
+//            LOG.error("Exception caught.", e);
 //        }
 //        return userModel;
 //    }
 //
 //    public UserModel getUserById(Long userId) {
-//        log.info("UserAuthClient: getUserById called@@@@ " + userId);
+//        LOG.info("AuthClient: getUserById called@@@@ " + userId);
 //        UserModel model = new UserModel();
 //        long startTime = System.currentTimeMillis();
 //        try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
@@ -196,15 +194,15 @@ public class UserAuthClient implements Serializable {
 //
 //            }
 //            long elapsedTime = System.currentTimeMillis() - startTime;
-//            log.info("getUserById######## request/response time in milliseconds: " + elapsedTime);
+//            LOG.info("getUserById######## request/response time in milliseconds: " + elapsedTime);
 //        } catch (IOException e) {
-//            log.error("Exception caught.", e);
+//            LOG.error("Exception caught.", e);
 //        }
 //        return model;
 //    }
 //
 //    public UserModel getUserByEmail(String email) {
-//        log.info("UserAuthClient: getUserByEmail called@@@@@ ");
+//        LOG.info("AuthClient: getUserByEmail called@@@@@ ");
 //        long startTime = System.currentTimeMillis();
 //        UserModel model = new UserModel();
 //        try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
@@ -222,9 +220,9 @@ public class UserAuthClient implements Serializable {
 //                }
 //            }
 //            long elapsedTime = System.currentTimeMillis() - startTime;
-//            log.info("getUserByEmail#$#$## request/response time in milliseconds: " + elapsedTime);
+//            LOG.info("getUserByEmail#$#$## request/response time in milliseconds: " + elapsedTime);
 //        } catch (IOException e) {
-//            log.error("Exception caught.", e);
+//            LOG.error("Exception caught.", e);
 //        }
 //        return model;
 //    }
@@ -234,7 +232,7 @@ public class UserAuthClient implements Serializable {
 //        UserModel returnedModel = new UserModel();
 //        long startTime = System.currentTimeMillis();
 //        try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
-//            log.debug("changePassword called ");
+//            LOG.debug("changePassword called ");
 //            HttpPut request = new HttpPut(AUTH_SERVICE_PATH + "old/update/password");
 //            JSONObject json = new JSONObject();
 //            json.put("token", model.getToken());
@@ -257,10 +255,10 @@ public class UserAuthClient implements Serializable {
 //            }
 //
 //            long elapsedTime = System.currentTimeMillis() - startTime;
-//            log.info("changePassword request/response time in milliseconds: " + elapsedTime);
+//            LOG.info("changePassword request/response time in milliseconds: " + elapsedTime);
 //        } catch (IOException e) {
 //            e.printStackTrace();
-//            log.error("Exception caught.", e);
+//            LOG.error("Exception caught.", e);
 //        }
 //        return returnedModel;
 //    }
@@ -270,7 +268,7 @@ public class UserAuthClient implements Serializable {
 //        UserModel returnedModel = new UserModel();
 //        long startTime = System.currentTimeMillis();
 //        try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
-//            log.debug("changePassword called ");
+//            LOG.debug("changePassword called ");
 //            HttpPut request = new HttpPut(AUTH_SERVICE_PATH + "update/forgot/password");
 //            JSONObject json = new JSONObject();
 //            json.put("password_hash", (password));
@@ -291,16 +289,16 @@ public class UserAuthClient implements Serializable {
 //            }
 //
 //            long elapsedTime = System.currentTimeMillis() - startTime;
-//            log.info("changePassword request/response time in milliseconds: " + elapsedTime);
+//            LOG.info("changePassword request/response time in milliseconds: " + elapsedTime);
 //        } catch (IOException e) {
 //            e.printStackTrace();
-//            log.error("Exception caught.", e);
+//            LOG.error("Exception caught.", e);
 //        }
 //        return returnedModel;
 //    }
 //
 //    public boolean checkUserEmailForUpdate(Long userId, String email) {
-//        log.info("UserAuthClient: checkUserEmailForUpdate called ");
+//        LOG.info("AuthClient: checkUserEmailForUpdate called ");
 //        boolean check = true;
 //        try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
 //            HttpGet request = new HttpGet(AUTH_SERVICE_PATH + "checkemail/" + userId + "/" + email);
@@ -314,15 +312,15 @@ public class UserAuthClient implements Serializable {
 //                }
 //            }
 //            long elapsedTime = System.currentTimeMillis() - startTime;
-//            log.info("checkUserEmailForUpdate request/response time in milliseconds: " + elapsedTime);
+//            LOG.info("checkUserEmailForUpdate request/response time in milliseconds: " + elapsedTime);
 //        } catch (IOException e) {
-//            log.error("Exception caught.", e);
+//            LOG.error("Exception caught.", e);
 //        }
 //        return check;
 //    }
 //
 //    public boolean sendForgotPasswordLink(String email) {
-//        log.debug("sendForgotPasswordLink:  called ");
+//        LOG.debug("sendForgotPasswordLink:  called ");
 //        boolean check = false;
 //        try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
 //            HttpPost request = new HttpPost(AUTH_SERVICE_PATH + "forgotpassword/send");
@@ -340,13 +338,13 @@ public class UserAuthClient implements Serializable {
 //            }
 //
 //        } catch (IOException e) {
-//            log.error("Exception caught.", e);
+//            LOG.error("Exception caught.", e);
 //        }
 //        return check;
 //    }
 //
 //    public boolean sendActivationLink(Long id, String email) {
-//        log.debug("sendActivationLink ");
+//        LOG.debug("sendActivationLink ");
 //        boolean check = false;
 //        try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
 //            HttpPost request = new HttpPost(AUTH_SERVICE_PATH + "activation/send/activationlink");
@@ -365,7 +363,7 @@ public class UserAuthClient implements Serializable {
 //                }
 //            }
 //        } catch (IOException e) {
-//            log.error("Exception caught.", e);
+//            LOG.error("Exception caught.", e);
 //        }
 //        return check;
 //    }

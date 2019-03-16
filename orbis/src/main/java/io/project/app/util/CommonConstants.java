@@ -1,4 +1,4 @@
-package com.front.web.util;
+package io.project.app.util;
 
 public class CommonConstants {
 

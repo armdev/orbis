@@ -1,4 +1,4 @@
-package com.front.web.handlers;
+package io.project.app.security;
 
 import java.text.MessageFormat;
 import java.util.Locale;

@@ -1,4 +1,4 @@
-package com.front.web.util;
+package io.project.app.util;
 
 import javax.faces.context.FacesContext;
 

@@ -1,8 +1,8 @@
-package com.front.web.auth;
+package io.project.app.auth;
 
-import com.front.web.client.UserAuthClient;
-import com.front.web.handlers.SessionContext;
-import com.front.web.util.CommonConstants;
+import io.project.app.unicorn.AuthClient;
+import io.project.app.security.SessionContext;
+import io.project.app.util.CommonConstants;
 import io.project.app.domain.User;
 import io.project.app.dto.Login;
 
@@ -35,7 +35,7 @@ public class LoginBean implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Inject
-    private UserAuthClient userAuthClient;
+    private AuthClient userAuthClient;
 
     @Inject
     private SessionContext sessionContext = null;

@@ -6,7 +6,7 @@
     <name>primefaces_marketplace</name>       
     <lifecycle>       
         <phase-listener>
-            com.front.web.handlers.AuthenticationPhaseListener
+           io.project.app.security.AuthenticationPhaseListener
         </phase-listener>
     </lifecycle>
     <component>

@@ -1,4 +1,4 @@
-package com.front.web.auth;
+package io.project.app.auth;
 
 import java.io.Serializable;
 import javax.enterprise.context.SessionScoped;
