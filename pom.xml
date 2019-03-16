@@ -11,8 +11,8 @@
         <module>zuul</module>       
         <module>register</module>      
         <module>profile</module>	
-        <module>eureka</module>   
-             
+        <module>eureka</module> 
+        <module>orbis</module>             
     </modules>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
