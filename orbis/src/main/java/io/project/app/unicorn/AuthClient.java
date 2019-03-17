@@ -39,7 +39,7 @@ public class AuthClient implements Serializable {
     }
 
     public User getUserByEmail(String email) {
-        LOG.info("UserAuthClient: getUserByEmail called@@@@ " + email);
+        LOG.info("Find user by email " + email);
         User model = new User();
         long startTime = System.currentTimeMillis();
         try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
@@ -53,7 +53,7 @@ public class AuthClient implements Serializable {
                 }
             }
             long elapsedTime = System.currentTimeMillis() - startTime;
-            LOG.info("getUserById request/response time in milliseconds: " + elapsedTime);
+            LOG.info("Find user by email request/response time in milliseconds: " + elapsedTime);
         } catch (IOException e) {
             LOG.error("Exception caught.", e);
         }
@@ -61,7 +61,7 @@ public class AuthClient implements Serializable {
     }
 
     public User getUserById(String userId) {
-        LOG.info("UserAuthClient: getUserById called@@@@ " + userId);
+        LOG.info("Find user by id " + userId);
         User model = new User();
         long startTime = System.currentTimeMillis();
         try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
@@ -75,7 +75,7 @@ public class AuthClient implements Serializable {
                 }
             }
             long elapsedTime = System.currentTimeMillis() - startTime;
-            LOG.info("getUserById request/response time in milliseconds: " + elapsedTime);
+            LOG.info("Find user by id request/response time in milliseconds: " + elapsedTime);
         } catch (IOException e) {
             LOG.error("Exception caught.", e);
         }
@@ -84,7 +84,7 @@ public class AuthClient implements Serializable {
 
     @SuppressWarnings("unchecked")
     public User userLogin(Login model) {
-        LOG.info("UserAuthClient: userLogin called ");
+        LOG.info("User login: called ");
         User returnedModel = new User();
         try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
             HttpPost request = new HttpPost(BASE_URL + "/auth/api/v2/users/auth");
@@ -97,13 +97,13 @@ public class AuthClient implements Serializable {
             HttpEntity entity = response.getEntity();
             long startTime = System.currentTimeMillis();
             try (CloseableHttpResponse httpResponse = httpClient.execute(request)) {
-                LOG.info("userLogin httpResponse.getStatusLine().getStatusCode() " + httpResponse.getStatusLine().getStatusCode());
+                LOG.info("User login: httpResponse.getStatusLine().getStatusCode() " + httpResponse.getStatusLine().getStatusCode());
                 if (httpResponse.getStatusLine().getStatusCode() == 200) {
                     returnedModel = GsonConverter.fromJson(EntityUtils.toString(httpResponse.getEntity()), User.class);
                 }
             }
             long elapsedTime = System.currentTimeMillis() - startTime;
-            LOG.info("userLogin request/response time in milliseconds: " + elapsedTime);
+            LOG.info("User login: request/response time in milliseconds: " + elapsedTime);
 
         } catch (IOException e) {
             LOG.error("Exception caught.", e);
@@ -115,7 +115,7 @@ public class AuthClient implements Serializable {
     public User userRegistration(User model) {
         User returnedModel = new User();
         try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
-            LOG.info("UserAuthClient: userRegistration ");
+            LOG.info("User Registration ");
             HttpPost request = new HttpPost(BASE_URL + "/register/api/v2/users/register");
 
             String toJson = GsonConverter.toJson(model);
@@ -125,13 +125,13 @@ public class AuthClient implements Serializable {
             request.setEntity(params);
             long startTime = System.currentTimeMillis();
             try (CloseableHttpResponse httpResponse = httpClient.execute(request)) {
-                LOG.info("userRegistration status code " + httpResponse.getStatusLine().getStatusCode());
+                LOG.info("User Registration status code " + httpResponse.getStatusLine().getStatusCode());
                 if (httpResponse.getStatusLine().getStatusCode() == 200) {
                     returnedModel = GsonConverter.fromJson(EntityUtils.toString(httpResponse.getEntity()), User.class);
                 }
             }
             long elapsedTime = System.currentTimeMillis() - startTime;
-            LOG.info("userRegistration request/response time in milliseconds: " + elapsedTime);
+            LOG.info("User Registration request/response time in milliseconds: " + elapsedTime);
         } catch (IOException e) {
             LOG.error("Exception caught.", e);
         }
