@@ -16,7 +16,7 @@ import lombok.ToString;
 @ToString
 @EqualsAndHashCode
 @AllArgsConstructor
-public class ResponseMessage implements Serializable {
+public class ApiResponseMessage implements Serializable {
 
     private static final long serialVersionUID = 4140121893514750179L;
     private String message;
