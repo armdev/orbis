@@ -119,7 +119,7 @@
     </dependencyManagement>
 
     <build>
-        <finalName>boxs</finalName>
+        <finalName>box</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
