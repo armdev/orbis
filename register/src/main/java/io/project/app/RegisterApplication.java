@@ -40,18 +40,18 @@ public class RegisterApplication implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         userRepository.deleteAll();
-        userService.save(new User("Adam", "Trust", "a@gmail.com", "aaaaaa", "098545242", "MALE", 25, "I want strong relationship", new Date(), 1));
-        userService.save(new User("Ben", "Red", "b@gmail.com", "aaaaaa", "098545242", "MALE", 35, "I need blond girl", new Date(), 1));
-        userService.save(new User("Den", "White", "c@gmail.com", "aaaaaa", "098545242", "MALE", 33, "strong", new Date(), 1));
-        userService.save(new User("Carlos", "Alarm", "d@gmail.com", "aaaaaa", "098545242", "MALE", 22, "strong", new Date(), 1));
-        userService.save(new User("Lina", "Ross", "e@gmail.com", "aaaaaa", "098545242", "FEMALE", 26, "Only Sex", new Date(), 1));
-        userService.save(new User("Dina", "Cross", "f@gmail.com", "aaaaaa", "098545242", "FEMALE", 21, "Only Marry", new Date(), 1));
-        userService.save(new User("Anna", "Tross", "g@gmail.com", "aaaaaa", "098545242", "FEMALE", 33, "sport", new Date(), 1));
-        userService.save(new User("Lala", "Bross", "h@gmail.com", "aaaaaa", "098545242", "FEMALE", 41, "sport", new Date(), 1));
-        userService.save(new User("Anna", "Blue", "m@gmail.com", "aaaaaa", "098545242", "FEMALE", 35, "sex", new Date(), 1));
-        userService.save(new User("Alen", "Simon", "s@gmail.com", "aaaaaa", "098545242", "MALE", 39, "Watch TV", new Date(), 1));
-        userService.save(new User("Michael", "Limon", "mm@gmail.com", "aaaaaa", "098545242", "MALE", 42, "strong", new Date(), 1));
-        userService.save(new User("Dana", "Bama", "dd@gmail.com", "aaaaaa", "098545242", "FEMALE", 42, "strong", new Date(), 1));
+        userService.save(new User("Adam", "Trust", "a@gmail.com", "aaaaaa", "098545242", "MALE", 25, new Date(), 1));
+        userService.save(new User("Ben", "Red", "b@gmail.com", "aaaaaa", "098545242", "MALE", 35, new Date(), 1));
+        userService.save(new User("Den", "White", "c@gmail.com", "aaaaaa", "098545242", "MALE", 33, new Date(), 1));
+        userService.save(new User("Carlos", "Alarm", "d@gmail.com", "aaaaaa", "098545242", "MALE", 22, new Date(), 1));
+        userService.save(new User("Lina", "Ross", "e@gmail.com", "aaaaaa", "098545242", "FEMALE", 26, new Date(), 1));
+        userService.save(new User("Dina", "Cross", "f@gmail.com", "aaaaaa", "098545242", "FEMALE", 21, new Date(), 1));
+        userService.save(new User("Anna", "Tross", "g@gmail.com", "aaaaaa", "098545242", "FEMALE", 33, new Date(), 1));
+        userService.save(new User("Lala", "Bross", "h@gmail.com", "aaaaaa", "098545242", "FEMALE", 41, new Date(), 1));
+        userService.save(new User("Anna", "Blue", "m@gmail.com", "aaaaaa", "098545242", "FEMALE", 35, new Date(), 1));
+        userService.save(new User("Alen", "Simon", "s@gmail.com", "aaaaaa", "098545242", "MALE", 39, new Date(), 1));
+        userService.save(new User("Michael", "Limon", "mm@gmail.com", "aaaaaa", "098545242", "MALE", 42, new Date(), 1));
+        userService.save(new User("Dana", "Bama", "dd@gmail.com", "aaaaaa", "098545242", "FEMALE", 42, new Date(), 1));
 
     }
 }

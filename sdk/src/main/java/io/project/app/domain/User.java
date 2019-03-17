@@ -27,20 +27,19 @@ public class User implements Serializable {
     private String mobileno;   
     private String gender;
     private int age;
-    private String preferences;  
+    
     
     private Date registerDate;
     private Integer status;
 
-    public User(String firstname, String lastname, String email, String password, String mobileno, String gender, int age, String preferences, Date registerDate, Integer status) {
+    public User(String firstname, String lastname, String email, String password, String mobileno, String gender, int age, Date registerDate, Integer status) {
         this.firstname = firstname;
         this.lastname = lastname;
         this.email = email;
         this.password = password;
         this.mobileno = mobileno;
         this.gender = gender;
-        this.age = age;
-        this.preferences = preferences;
+        this.age = age;       
         this.registerDate = registerDate;
         this.status = status;
     }
