@@ -24,14 +24,12 @@ public class FileStorageService {
     @Value("${fileStoragePath}")
     private String basepath;
 
-    public String storeFile(
-            String organizationName,
+    public String storeFile(          
             String title,
-            byte[] content,
-            Long organizationId,
-            Long userId
+            byte[] content,            
+            String userId
     ) {
-        String orgDir = organizationId + "/" + userId + "/";
+        String orgDir = userId.substring(0, 2) + "/" + userId.substring(3, 5);
         String filePath = null;
         String absPath = basepath + orgDir;
         String hashString = title + String.valueOf(System.currentTimeMillis());
@@ -72,7 +70,7 @@ public class FileStorageService {
                 out.write(content);
             }
         } catch (IOException e) {
-            log.info("Cannot create file: " + absPath + ", exception: " + e);
+            log.error("Cannot create file: " + absPath + ", exception: " + e);
         }
         log.info("return file path " + filePath);
         return filePath;
@@ -112,7 +110,7 @@ public class FileStorageService {
                 log.info("content " + Arrays.toString(content));
                 io.read(content);
             } catch (IOException e) {
-                log.info("cannot read file: " + abspath + ", exception: " + e);
+                log.error("cannot read file: " + abspath + ", exception: " + e);
             }
         }
         return content;

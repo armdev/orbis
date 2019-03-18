@@ -21,11 +21,9 @@ public class FileDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
     
-    private String id;
-    
-    private Long organizationId;
-    
-    private Long ownerId;
+    private String id;    
+
+    private String userId;
     
     private String fileName;
     

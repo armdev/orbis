@@ -27,12 +27,9 @@ public class FileModel implements Serializable{
     
     @Id      
     private String id;
-    
+  
     @Indexed
-    private Long organizationId;
-    
-    @Indexed
-    private Long ownerId;
+    private String userId;
     
     private String fileName;
     
