@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import io.project.app.domain.User;
+import io.project.app.dto.PasswordUpdate;
 import java.util.Optional;
 
 /**
@@ -25,7 +26,7 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api/v2/profiles")
 @Slf4j
-public class UserController {
+public class ProfileController {
 
     @Autowired
     private UserService userService;
@@ -38,6 +39,23 @@ public class UserController {
             Optional<User> findUser = userService.findUser(user.getId());
             if (findUser.isPresent()) {
                 User updateUser = userService.updateUser(user);
+                return ResponseEntity.status(HttpStatus.OK).body(updateUser);
+            }
+        }
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Did not find user for update");
+    }
+    
+    
+    
+    @PutMapping(path = "/user/password", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @CrossOrigin
+    @Timed
+    public ResponseEntity<?> update(@RequestBody PasswordUpdate passwordUpdate) {
+        if (passwordUpdate.getId() != null) {
+            Optional<User> findUser = userService.findUser(passwordUpdate.getId());
+            if (findUser.isPresent()) {                
+                findUser.get().setPassword(passwordUpdate.getPassword());
+                User updateUser = userService.updateUser(findUser.get());
                 return ResponseEntity.status(HttpStatus.OK).body(updateUser);
             }
 

@@ -21,9 +21,7 @@ public class UserService {
     private UserRepository userRepository;
 
     public User updateUser(User user) {
-
         User savedUser = userRepository.save(user);
-
         return savedUser;
     }
 

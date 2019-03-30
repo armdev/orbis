@@ -3,7 +3,7 @@ package io.project.app.profile;
 import io.project.app.unicorn.AuthClient;
 import io.project.app.security.SessionContext;
 import io.project.app.domain.User;
-
+import io.project.app.unicorn.ProfileClient;
 
 import java.io.Serializable;
 import java.util.PropertyResourceBundle;
@@ -25,6 +25,9 @@ public class ProfileBean implements Serializable {
 
     @Inject
     private AuthClient userAuthClient;
+    
+    @Inject
+    private ProfileClient profileClient;
 
     @Inject
     private SessionContext sessionContext = null;
@@ -38,7 +41,6 @@ public class ProfileBean implements Serializable {
 
     @PostConstruct
     public void init() {
-
         if (sessionContext.getUser().getId() != null) {
             LOGGER.info("Calling getUserById");
             userModel = userAuthClient.getUserById(sessionContext.getUser().getId());
@@ -48,60 +50,22 @@ public class ProfileBean implements Serializable {
     }
 
     public String updateProfile() {
-        if (userModel.getEmail() == null) {
-            FacesMessage msg = new FacesMessage("Fill email please", "Fill email please");
+        
+        User updateProfile = profileClient.updateProfile(userModel);
+        
+        
+        if (updateProfile.getEmail() != null) {
+            FacesMessage msg = new FacesMessage("Profile updated", "Profile updated");
             FacesContext.getCurrentInstance().addMessage(null, msg);
         }
-     //   boolean check = userAuthClient.checkUserEmailForUpdate(sessionContext.getUser().getId(), userModel.getEmail());
-
-//        if (check) {
-//            FacesMessage msg = new FacesMessage(getBundle().getString("emailbusy"), getBundle().getString("emailbusy"));
-//            FacesContext.getCurrentInstance().addMessage(null, msg);
-//            return null;
-//        }
-//        LOGGER.info("Token SET " + sessionContext.getUser().getToken());
-//        userModel.setToken(sessionContext.getUser().getToken());
-//        userModel.setId(sessionContext.getUser().getId());
-
-        // returnedModel = userAuthClient.updateUser(userModel);
-//        sessionContext.setUser(returnedModel);
+    
 //
-//        LOGGER.debug("UpdateProfile");
-//        if (returnedModel.getToken() != null) {
-//            LOGGER.info("Calling getUserById!!!!!");
-//            userModel = userAuthClient.getUserById(sessionContext.getUser().getId());
-//        }
-//
-//        if (userModel != null && userModel.getId() != null) {
-//            LOGGER.debug("UpdateProfile Success");
-//            FacesMessage msg = new FacesMessage(getBundle().getString("updatesuccess"), getBundle().getString("updatesuccess"));
-//            FacesContext.getCurrentInstance().addMessage(null, msg);
-//            return null;
-//        }
-
-        LOGGER.debug("UpdateProfile fail");
-        FacesMessage msg = new FacesMessage(getBundle().getString("updatefail"), getBundle().getString("updatefail"));
-        FacesContext.getCurrentInstance().addMessage(null, msg);
+//       
+//        FacesMessage msg = new FacesMessage(getBundle().getString("updatefail"), getBundle().getString("updatefail"));
+//        FacesContext.getCurrentInstance().addMessage(null, msg);
         return null;
     }
 
-//    public String changeOldPassword() {
-//        userModel.setToken(sessionContext.getUser().getToken());
-//        userModel.setId(sessionContext.getUser().getId());
-//        UserModel model = userAuthClient.changeOldPassword(sessionContext.getUser(), userModel.getPassword_hash());
-//        LOGGER.debug("Update password");
-//        if (model != null && model.getId() != null) {
-//            LOGGER.debug("Update password Success");
-//            FacesMessage msg = new FacesMessage(getBundle().getString("updatesuccess"), getBundle().getString("updatesuccess"));
-//            FacesContext.getCurrentInstance().addMessage(null, msg);
-//            return null;
-//        }
-//        LOGGER.debug("Update password fail");
-//        FacesMessage msg = new FacesMessage(getBundle().getString("updatefail"), getBundle().getString("updatefail"));
-//        FacesContext.getCurrentInstance().addMessage(null, msg);
-//        return null;
-//
-//    }
 
     public PropertyResourceBundle getBundle() {
         FacesContext context = FacesContext.getCurrentInstance();

@@ -13,7 +13,6 @@ zuul:
     profile:
       path: /profile/**
       url: http://profile:4006    
-    
    
 
 server:
@@ -48,7 +47,13 @@ eureka:
 
 auth:
     ribbon:
-     ReadTimeout: 1000
+     ReadTimeout: 10000
 register:
     ribbon:
-     ReadTimeout: 1000
+     ReadTimeout: 10000
+profile:
+    ribbon:
+     ReadTimeout: 10000
+box:
+    ribbon:
+     ReadTimeout: 10000
