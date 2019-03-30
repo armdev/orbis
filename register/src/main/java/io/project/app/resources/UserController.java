@@ -63,16 +63,16 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).body(userService.findUserByEmail(email).get());
     }
 
-    @GetMapping(path = "/search", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    @CrossOrigin
-    @Timed
-    public ResponseEntity<?> simpleSeach(@RequestParam(name = "gender", required = false) String gender,
-            @RequestParam(name = "age", required = false) int age, @RequestParam(name = "preferences", required = false) String preferences) {
-        log.info("Search started ");
-        log.info("age " + age);
-        log.info("preferences " + preferences);
-        log.info("gender " + gender);
-        return ResponseEntity.status(HttpStatus.OK).body(userService.doSearch(gender, age, preferences));
-    }
+//    @GetMapping(path = "/search", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+//    @CrossOrigin
+//    @Timed
+//    public ResponseEntity<?> simpleSeach(@RequestParam(name = "gender", required = false) String gender,
+//            @RequestParam(name = "age", required = false) int age, @RequestParam(name = "preferences", required = false) String preferences) {
+//        log.info("Search started ");
+//        log.info("age " + age);
+//        log.info("preferences " + preferences);
+//        log.info("gender " + gender);
+//        return ResponseEntity.status(HttpStatus.OK).body(userService.doSearch(gender, age, preferences));
+//    }
 
 }
