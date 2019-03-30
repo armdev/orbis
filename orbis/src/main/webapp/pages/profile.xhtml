@@ -17,23 +17,70 @@
                         padding-bottom: 10px;
                     }
                 </style>
+                <ui:remove>
+                    <h:head>
+                        <style type="text/css">
+                            .nba-grid {
+                                width: 100%;
+                                table-layout: fixed;
+                                word-wrap: break-word;
+                            }
+                        </style>
+                        <f:metadata>          
+                            <f:viewParam id="id" name="id" value="#{profileBean.userPassword}"/>
+                        </f:metadata>  
+                    </h:head>
+                </ui:remove>
             </ui:define>
             <ui:define name="content">
                 <p:growl/>
                 <div class="ui-g ui-fluid">
                     <div class="ui-g-12 ui-lg-6">                        
-                        <h:form id="updateprofile">
+                        <h:form id="updateprofile" prependId="false" >
                             <div class="card">
-                                <h1>Profile update</h1>
-                                <p:panelGrid columns="1" layout="grid" style="border:0px !important; background:none;" styleClass="ui-panelgrid-blank">                                  
-                                    
-                                                 
+                                <h1>Profile update</h1>                              
+                                <p:growl id="messages" showDetail="true" life="2000" />
+                                <p:panelGrid columns="1" layout="grid" style="border:0px !important; background:none;" styleClass="ui-panelgrid-blank">
+
+
+                                    <p:inputText placeholder="email" title="email" required="true" readonly="true"
+                                                 value="#{profileBean.userModel.email}">                                       
+                                        <f:validateRequired/>
+                                        <f:validateLength maximum="100"/>                            
+                                    </p:inputText> 
+
+                                    <p:inputText placeholder="firstname" title="firstname" required="true"
+                                                 value="#{profileBean.userModel.firstname}">                                       
+                                        <f:validateRequired/>
+                                        <f:validateLength maximum="100"/>                            
+                                    </p:inputText> 
+
+                                    <p:inputText placeholder="lastname" title="lastname" required="true"
+                                                 value="#{profileBean.userModel.lastname}">                                       
+                                        <f:validateRequired/>
+                                        <f:validateLength maximum="100"/>                            
+                                    </p:inputText> 
+
+                                    <p:inputText placeholder="gender" title="gender" required="true"
+                                                 value="#{profileBean.userModel.gender}">                                       
+                                        <f:validateRequired/>
+                                        <f:validateLength maximum="10"/>                            
+                                    </p:inputText> 
+                                    <p:inputText placeholder="mobileno" title="mobileno" required="true"
+                                                 value="#{profileBean.userModel.mobileno}">                                       
+                                        <f:validateRequired/>
+                                        <f:validateLength maximum="30"/>                            
+                                    </p:inputText> 
+                                    <p:inputText placeholder="age" title="age" required="true"
+                                                 value="#{profileBean.userModel.age}">                                       
+                                        <f:validateRequired/>
+                                        <f:validateLength maximum="2"/>                            
+                                    </p:inputText> 
+
                                 </p:panelGrid>
-                               
+                                <p:commandButton type="submit" ajax="false" value="Save or Update" action="#{profileBean.updateProfile()}"  />
                             </div>
                         </h:form>
-                        
-                     
                     </div>
                 </div>
             </ui:define>

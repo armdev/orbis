@@ -70,7 +70,7 @@ public class ProfileClient implements Serializable {
         long startTime = System.currentTimeMillis();
 
         try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
-            LOG.debug("changePassword called ");
+            LOG.info("Change Password called ");
             HttpPut request = new HttpPut(BASE_URL + "/profile/api/v2/profiles/user/password");
 
             PasswordUpdate passwordUpdate = new PasswordUpdate(id, password);

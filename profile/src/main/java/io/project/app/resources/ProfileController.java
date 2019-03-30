@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import io.project.app.domain.User;
 import io.project.app.dto.PasswordUpdate;
+import io.project.app.util.PasswordHash;
 import java.util.Optional;
 
 /**
@@ -35,6 +36,7 @@ public class ProfileController {
     @CrossOrigin
     @Timed
     public ResponseEntity<?> put(@RequestBody User user) {
+         log.info("Started user update");
         if (user.getId() != null) {
             Optional<User> findUser = userService.findUser(user.getId());
             if (findUser.isPresent()) {
@@ -44,17 +46,16 @@ public class ProfileController {
         }
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Did not find user for update");
     }
-    
-    
-    
+
     @PutMapping(path = "/user/password", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @CrossOrigin
     @Timed
     public ResponseEntity<?> update(@RequestBody PasswordUpdate passwordUpdate) {
+        log.info("Started password update");
         if (passwordUpdate.getId() != null) {
             Optional<User> findUser = userService.findUser(passwordUpdate.getId());
-            if (findUser.isPresent()) {                
-                findUser.get().setPassword(passwordUpdate.getPassword());
+            if (findUser.isPresent()) {
+                findUser.get().setPassword(PasswordHash.hashPassword(passwordUpdate.getPassword()));
                 User updateUser = userService.updateUser(findUser.get());
                 return ResponseEntity.status(HttpStatus.OK).body(updateUser);
             }

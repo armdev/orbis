@@ -13,28 +13,28 @@ import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 import org.apache.log4j.Logger;
 
 @Named
 @ViewScoped
+@Data
 public class ProfileBean implements Serializable {
 
     private static final Logger LOGGER = Logger.getLogger(ProfileBean.class);
 
     @Inject
     private AuthClient userAuthClient;
-    
+
     @Inject
     private ProfileClient profileClient;
 
     @Inject
     private SessionContext sessionContext = null;
 
-    @Setter
-    @Getter
     private User userModel = null;
+
+    private String userPassword;
 
     public ProfileBean() {
     }
@@ -49,23 +49,53 @@ public class ProfileBean implements Serializable {
 
     }
 
-    public String updateProfile() {
-        
-        User updateProfile = profileClient.updateProfile(userModel);
-        
-        
-        if (updateProfile.getEmail() != null) {
-            FacesMessage msg = new FacesMessage("Profile updated", "Profile updated");
+    public String updatePassword() {
+
+        int changePassword = profileClient.changePassword(userModel.getId(), userPassword);
+
+        if (changePassword != 200) {
+
+            FacesMessage msg = new FacesMessage("Notificaation", "Password update failed");
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+
+        } else {
+            FacesMessage msg = new FacesMessage("Notificaation", "Password update success");
             FacesContext.getCurrentInstance().addMessage(null, msg);
         }
-    
-//
-//       
-//        FacesMessage msg = new FacesMessage(getBundle().getString("updatefail"), getBundle().getString("updatefail"));
-//        FacesContext.getCurrentInstance().addMessage(null, msg);
         return null;
     }
 
+    public String updateProfile() {
+
+        User updateProfile = profileClient.updateProfile(userModel);
+
+        if (updateProfile.getEmail() != null) {
+            sessionContext.setUser(updateProfile);
+            FacesMessage msg = new FacesMessage("System message", "Profile updated");
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+        } else {
+            FacesMessage msg = new FacesMessage("System error", "Profile update failed");
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+        }
+
+        return null;
+    }
+
+    public String getUserPassword() {
+        return userPassword;
+    }
+
+    public void setUserPassword(String userPassword) {
+        this.userPassword = userPassword;
+    }
+
+    public User getUserModel() {
+        return userModel;
+    }
+
+    public void setUserModel(User userModel) {
+        this.userModel = userModel;
+    }
 
     public PropertyResourceBundle getBundle() {
         FacesContext context = FacesContext.getCurrentInstance();
