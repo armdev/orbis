@@ -6,6 +6,7 @@
 package io.project.app.services;
 
 import io.project.app.domain.FileModel;
+import io.project.app.dto.FileDTO;
 import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,11 +30,16 @@ public class FileService {
 
     @Autowired
     private FileStorageService fileStorageUtil;
-    
-      public Optional<FileModel> findByIdAndUserId(String id, String userId) {
 
-        
-        return fileModelRepository.findByIdAndUserId(id, userId);
+    public FileDTO findFile(String id) {
+        FileDTO fileDTO = new FileDTO();
+        Optional<FileModel> userFile = fileModelRepository.findById(id);
+        if (userFile.isPresent()) {
+            byte[] savedFile = fileStorageUtil.readFile(userFile.get().getFilePath());
+            fileDTO.setFileContent(savedFile);
+        }
+
+        return fileDTO;
 
     }
 

@@ -64,27 +64,17 @@ public class LoginBean implements Serializable {
 
     public String loginUser() {
         User user = userAuthClient.userLogin(loginModel);
-        if (user == null) {
-            return "nouser";
+        if (user.getEmail() == null) {
+            FacesMessage msg = new FacesMessage(getBundle().getString("nouser"), getBundle().getString("nouser"));
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+            return null;
         }
 
         if (user.getStatus().equals(CommonConstants.ACTIVATED)) {
             sessionContext.setUser(user);
-
             sessionContext.init();
             return "dashboard";
-//            if (user.getStatus().equals(CommonConstants.NOT_ACTIVATED)) {
-//                LOGGER.info("Not active user");
-//                return "activationlink";
-//            }
-//            if (user.getStatus().equals(CommonConstants.BLOCKED)) {
-//                LOGGER.info("Blocked user");
-//                return "nouser";
-//            }
-//            if (user.getStatus().equals(CommonConstants.ACTIVATED)) {
-//                LOGGER.info("Active user");
-//               
-//            }
+
         }
         FacesMessage msg = new FacesMessage(getBundle().getString("nouser"), getBundle().getString("nouser"));
         FacesContext.getCurrentInstance().addMessage(null, msg);

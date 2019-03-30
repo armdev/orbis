@@ -9,7 +9,6 @@ import io.project.app.services.FileStorageService;
 import java.util.Date;
 import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -47,9 +46,8 @@ public class FileStorageResource {
     ) {
 
         // decode file byte array 
-        final byte[] backToBytes = Base64.decodeBase64(fileDTO.getFileContent());
-
-        String filepath = fileStorageService.storeFile(fileDTO.getFileName(), backToBytes, fileDTO.getUserId());
+        // final byte[] backToBytes = Base64.decodeBase64(fileDTO.getFileContent());
+        String filepath = fileStorageService.storeFile(fileDTO.getFileName(), fileDTO.getFileContent(), fileDTO.getUserId());
 
         if (filepath != null) {
             FileModel fileModel = new FileModel();
@@ -63,29 +61,25 @@ public class FileStorageResource {
             log.info("Content type is" + fileModel.getContentType());
             Optional<FileModel> savedFileMetadata = fileService.saveFileMetadata(fileModel);
             if (savedFileMetadata.isPresent()) {
-                return ResponseEntity.status(HttpStatus.CREATED).body(savedFileMetadata.get());
+                return ResponseEntity.status(HttpStatus.OK).body(savedFileMetadata.get().getId());
             }
         }
 
         return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ApiResponseMessage("Could not save file"));
     }
-    
+
     @GetMapping
     @ResponseBody
     @CrossOrigin
     @Timed
-    public ResponseEntity<?> fetch(          
-            @RequestParam(name = "id", required = true) String id,
-            @RequestParam(name = "userId", required = true) String userId
-            
+    public ResponseEntity<?> fetch(
+            @RequestParam(name = "id", required = true) String id
     ) {
 
-        Optional<FileModel> findByIdAndUserId = fileService.findByIdAndUserId(id, userId);
-         
-        
-        return ResponseEntity.status(HttpStatus.OK).body(findByIdAndUserId.get());
-    }
+        FileDTO userFile = fileService.findFile(id);
 
+        return ResponseEntity.status(HttpStatus.OK).body(userFile);
+    }
 
     @DeleteMapping
     @CrossOrigin

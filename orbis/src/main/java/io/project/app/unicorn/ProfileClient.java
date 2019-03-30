@@ -1,6 +1,7 @@
 package io.project.app.unicorn;
 
 import io.project.app.domain.User;
+import io.project.app.dto.FileDTO;
 import io.project.app.dto.PasswordUpdate;
 import io.project.app.util.GsonConverter;
 import java.io.IOException;
@@ -11,6 +12,8 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpDelete;
+import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -33,7 +36,81 @@ public class ProfileClient implements Serializable {
 
     @PostConstruct
     public void init() {
-        LOG.debug("ProfileClient called");
+        LOG.info("ProfileClient called");
+    }
+
+    public FileDTO getFileById(String id) {
+        FileDTO fileDTO = new FileDTO();
+        try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
+            LOG.info("Upload file started ");
+            HttpGet request = new HttpGet(BASE_URL + "/box/api/v2/documents?id=" + id);
+
+            request.addHeader("content-type", "application/json;charset=UTF-8");
+            request.addHeader("charset", "UTF-8");
+
+            long startTime = System.currentTimeMillis();
+            try (CloseableHttpResponse httpResponse = httpClient.execute(request)) {
+                LOG.info("Get file  status code " + httpResponse.getStatusLine().getStatusCode());
+                if (httpResponse.getStatusLine().getStatusCode() == 200) {
+                    fileDTO = GsonConverter.fromJson(EntityUtils.toString(httpResponse.getEntity()), FileDTO.class);
+                }
+            }
+            long elapsedTime = System.currentTimeMillis() - startTime;
+            LOG.info("Get File started  request/response time in milliseconds: " + elapsedTime);
+        } catch (IOException e) {
+            LOG.error("Exception caught.", e);
+        }
+        return fileDTO;
+    }
+
+    public FileDTO deleteFile(String id) {
+        FileDTO fileDTO = new FileDTO();
+        try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
+            LOG.info("Upload file started ");
+            HttpDelete request = new HttpDelete(BASE_URL + "/box/api/v2/documents?id=" + id);
+
+            request.addHeader("content-type", "application/json;charset=UTF-8");
+            request.addHeader("charset", "UTF-8");
+
+            long startTime = System.currentTimeMillis();
+            try (CloseableHttpResponse httpResponse = httpClient.execute(request)) {
+                LOG.info("delete file  status code " + httpResponse.getStatusLine().getStatusCode());
+                if (httpResponse.getStatusLine().getStatusCode() == 200) {
+                    fileDTO = GsonConverter.fromJson(EntityUtils.toString(httpResponse.getEntity()), FileDTO.class);
+                }
+            }
+            long elapsedTime = System.currentTimeMillis() - startTime;
+            LOG.info("delete file started  request/response time in milliseconds: " + elapsedTime);
+        } catch (IOException e) {
+            LOG.error("Exception caught.", e);
+        }
+        return fileDTO;
+    }
+
+    public String saveFile(FileDTO fileDTO) {
+        String fileId = null;
+        try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
+            LOG.info("Upload file started ");
+            HttpPut request = new HttpPut(BASE_URL + "/box/api/v2/documents");
+
+            String toJson = GsonConverter.toJson(fileDTO);
+            StringEntity params = new StringEntity(toJson, "UTF-8");
+            request.addHeader("content-type", "application/json;charset=UTF-8");
+            request.addHeader("charset", "UTF-8");
+            request.setEntity(params);
+            long startTime = System.currentTimeMillis();
+            try (CloseableHttpResponse httpResponse = httpClient.execute(request)) {
+                LOG.info("Upload file started  status code " + httpResponse.getStatusLine().getStatusCode());
+                if (httpResponse.getStatusLine().getStatusCode() == 200) {
+                    fileId = GsonConverter.fromJson(EntityUtils.toString(httpResponse.getEntity()), String.class);
+                }
+            }
+            long elapsedTime = System.currentTimeMillis() - startTime;
+            LOG.info("Upload file started  request/response time in milliseconds: " + elapsedTime);
+        } catch (IOException e) {
+            LOG.error("Exception caught.", e);
+        }
+        return fileId;
     }
 
     public User updateProfile(User model) {
@@ -90,7 +167,7 @@ public class ProfileClient implements Serializable {
 
             long elapsedTime = System.currentTimeMillis() - startTime;
             LOG.info("ChangePassword request/response time in milliseconds: " + elapsedTime);
-        } catch (IOException e) {         
+        } catch (IOException e) {
             LOG.error("Exception caught.", e);
         }
         return status;
