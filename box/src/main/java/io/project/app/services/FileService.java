@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import io.project.app.repositories.FileModelRepository;
+import org.apache.tomcat.util.codec.binary.Base64;
 
 /**
  *
@@ -36,7 +37,10 @@ public class FileService {
         Optional<FileModel> userFile = fileModelRepository.findById(id);
         if (userFile.isPresent()) {
             byte[] savedFile = fileStorageUtil.readFile(userFile.get().getFilePath());
-            fileDTO.setFileContent(savedFile);
+            String base64String = Base64.encodeBase64String(savedFile);
+            fileDTO.setFileContent(base64String);
+            log.info("file name is "+userFile.get().getFileName());
+            fileDTO.setFileName(userFile.get().getFileName());
         }
 
         return fileDTO;

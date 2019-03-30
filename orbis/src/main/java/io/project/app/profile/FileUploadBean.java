@@ -17,6 +17,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.http.Part;
 import lombok.Data;
+import org.apache.commons.codec.binary.Base64;
 import org.apache.log4j.Logger;
 
 @Named
@@ -62,8 +63,8 @@ public class FileUploadBean implements Serializable {
             
             byte[] contentBytes = new byte[(int) size];
             stream.read(contentBytes);
-            //  String base64String = Base64.encodeBase64String(contentBytes);
-            fileDTO.setFileContent(contentBytes);
+            String base64String = Base64.encodeBase64String(contentBytes);
+            fileDTO.setFileContent(base64String);
             fileDTO.setFileName(uploadedFile.getSubmittedFileName());
             fileDTO.setFileSize(size);
             fileDTO.setUserId(sessionContext.getUser().getId());

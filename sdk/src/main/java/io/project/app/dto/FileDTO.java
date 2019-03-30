@@ -33,5 +33,5 @@ public class FileDTO implements Serializable {
     
     private Date uploadDate;
     
-    private byte[] fileContent;
+    private String fileContent;
 }

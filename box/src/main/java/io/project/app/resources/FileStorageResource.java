@@ -9,9 +9,9 @@ import io.project.app.services.FileStorageService;
 import java.util.Date;
 import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -38,7 +38,7 @@ public class FileStorageResource {
     @Autowired
     private FileService fileService;
 
-    @PutMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PutMapping
     @ResponseBody
     @CrossOrigin
     public ResponseEntity<?> put(
@@ -46,8 +46,8 @@ public class FileStorageResource {
     ) {
 
         // decode file byte array 
-        // final byte[] backToBytes = Base64.decodeBase64(fileDTO.getFileContent());
-        String filepath = fileStorageService.storeFile(fileDTO.getFileName(), fileDTO.getFileContent(), fileDTO.getUserId());
+        final byte[] backToBytes = Base64.decodeBase64(fileDTO.getFileContent());
+        String filepath = fileStorageService.storeFile(fileDTO.getFileName(), backToBytes, fileDTO.getUserId());
 
         if (filepath != null) {
             FileModel fileModel = new FileModel();
@@ -77,6 +77,8 @@ public class FileStorageResource {
     ) {
 
         FileDTO userFile = fileService.findFile(id);
+
+        log.info("get file " + userFile.getFileName());
 
         return ResponseEntity.status(HttpStatus.OK).body(userFile);
     }

@@ -35,7 +35,19 @@
             <ui:define name="content">
                 <p:growl/>
                 <div class="ui-g ui-fluid">
-                    <div class="ui-g-12 ui-lg-6">                        
+                    <div class="ui-g-12 ui-lg-6">    
+                        <h:form id="avatarUpdate" prependId="false" enctype="multipart/form-data"  acceptcharset="utf-8">
+                            <div class="card">
+                                <p:graphicImage url="/PreviewImage?fileId=#{sessionContext.userAvatarId}" rendered="#{sessionContext.userAvatarId != null}"
+                                                    width="120px" height="120px"/>
+                                <br/>
+                                <h:inputFile id="file"  value="#{fileUploadBean.uploadedFile}"/>  
+                                <br/>  <br/>
+                               
+                                 <p:commandButton type="submit" ajax="false" value="Upload Photo" action="#{fileUploadBean.doAction()}"  />
+                            </div>
+                            
+                        </h:form>
                         <h:form id="updateprofile" prependId="false" >
                             <div class="card">
                                 <h1>Profile update</h1>                              

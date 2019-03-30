@@ -13,6 +13,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.apache.commons.codec.binary.Base64;
 
 /**
  *
@@ -56,8 +57,8 @@ public class PreviewImage extends HttpServlet implements SingleThreadModel {
         if (fileIdStr != null) {
             FileDTO file = appManager.getFileById(fileIdStr);
             if (file != null) {
-                byte[] content = file.getFileContent();
-                
+                 byte[] content = Base64.decodeBase64(file.getFileContent());
+
                 if (content != null) {
                     response.addHeader("Pragma", "cache");
                     response.addHeader("Cache-Control", "max-age=3600, must-revalidate");
@@ -90,7 +91,7 @@ public class PreviewImage extends HttpServlet implements SingleThreadModel {
         try {
             response.getWriter().println("file id is not set");
         } catch (IOException e) {
-           
+
         }
     }
 }

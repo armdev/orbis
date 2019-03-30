@@ -6,7 +6,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.Arrays;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -24,15 +23,19 @@ public class FileStorageService {
     @Value("${fileStoragePath}")
     private String basepath;
 
-    public String storeFile(          
+    public String storeFile(
             String title,
-            byte[] content,            
+            byte[] content,
             String userId
     ) {
+        log.info("1. user id " + userId);
         String orgDir = userId.substring(0, 2) + "/" + userId.substring(3, 5);
-        String filePath = null;
+        log.info("2. orgDir " + orgDir);
+        String filePath = "";
         String absPath = basepath + orgDir;
+        log.info("3. absPath " + absPath);
         String hashString = title + String.valueOf(System.currentTimeMillis());
+
         File file = null;
 
         do {
@@ -50,13 +53,18 @@ public class FileStorageService {
                 }
                 hashString = sb.toString();
             } catch (NoSuchAlgorithmException ex) {
-                log.info("Cannot fined implementation of SHA algorigm: " + ex);
+                log.error("Cannot fined implementation of SHA algorigm: " + ex);
                 return filePath;
             }
-            filePath = orgDir + hashString;
+            filePath = orgDir + "/" + hashString; //for return
             
-            file = new File(absPath + hashString);
-            log.info("file  " + file);
+            log.info("4.0. orgDir " + orgDir);
+            log.info("4. filePath " + filePath);
+          
+            
+            file = new File(absPath + "/" + hashString); //for save
+            log.info("5. file  " + file);
+            
         } while (file.exists());
 
         try {
@@ -66,22 +74,23 @@ public class FileStorageService {
             }
 
             file.createNewFile();
+
             try (FileOutputStream out = new FileOutputStream(file)) {
                 out.write(content);
             }
         } catch (IOException e) {
             log.error("Cannot create file: " + absPath + ", exception: " + e);
         }
-        log.info("return file path " + filePath);
+        log.info("6. return file path " + filePath);
         return filePath;
     }
 
     public boolean removeFile(String filepath) {
         log.info("filepath is " + filepath);
         File file = new File(basepath + filepath);
-        if (file.exists()) {            
+        if (file.exists()) {
             boolean delete = file.delete();
-            if(delete){
+            if (delete) {
                 log.info("Document deleted");
                 return true;
             }
@@ -107,7 +116,7 @@ public class FileStorageService {
                 int bytesize = io.available();
                 log.info("bytesize" + bytesize);
                 content = new byte[bytesize];
-                log.info("content " + Arrays.toString(content));
+                //  log.info("content " + Arrays.toString(content));
                 io.read(content);
             } catch (IOException e) {
                 log.error("cannot read file: " + abspath + ", exception: " + e);
