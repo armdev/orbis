@@ -13,6 +13,7 @@
         <module>profile</module>	
         <module>eureka</module> 
         <module>box</module>
+        <module>marshal</module>
         <module>orbis</module>             
     </modules>
     <properties>

@@ -4,12 +4,12 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>io.project.app</groupId>
-    <artifactId>register</artifactId>
+    <artifactId>marshal</artifactId>
     <version>1.0</version>
     <packaging>jar</packaging>
 
-    <name>register</name>
-    <description>register api</description>
+    <name>marshal</name>
+    <description>marshal api</description>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -103,7 +103,7 @@
     </dependencyManagement>
 
     <build>
-        <finalName>register</finalName>
+        <finalName>marshal</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
