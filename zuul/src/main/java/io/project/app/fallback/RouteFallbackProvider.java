@@ -9,10 +9,12 @@ import org.springframework.stereotype.Component;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @Component
+@Slf4j
 public class RouteFallbackProvider implements FallbackProvider {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(RouteFallbackProvider.class);
@@ -21,16 +23,20 @@ public class RouteFallbackProvider implements FallbackProvider {
         return new ClientHttpResponse() {
             @Override
             public HttpStatus getStatusCode() {
+                log.error("FallbackResponse " + HttpStatus.SERVICE_UNAVAILABLE);
+                
                 return HttpStatus.SERVICE_UNAVAILABLE;
             }
 
             @Override
             public int getRawStatusCode() {
+                log.error("FallbackResponse 1 " + HttpStatus.SERVICE_UNAVAILABLE);
                 return HttpStatus.SERVICE_UNAVAILABLE.value();
             }
 
             @Override
             public String getStatusText() {
+                log.error("FallbackResponse 2 " + HttpStatus.SERVICE_UNAVAILABLE);
                 return HttpStatus.SERVICE_UNAVAILABLE.getReasonPhrase();
             }
 
@@ -65,6 +71,8 @@ public class RouteFallbackProvider implements FallbackProvider {
 
     @Override
     public ClientHttpResponse fallbackResponse(String s, Throwable throwable) {
+        
+         log.error("fallbackResponse 3 " + throwable.getLocalizedMessage());
         return fallbackResponse(null);
     }
 }

@@ -3,6 +3,10 @@ package io.project.app.resources;
 import io.micrometer.core.annotation.Timed;
 import io.project.app.domain.User;
 import io.project.app.services.UserService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 
@@ -27,6 +31,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/v2/users")
 @Slf4j
+@Api(value = "Registration API")
 public class RegisterController {
 
     @Autowired
@@ -41,8 +46,11 @@ public class RegisterController {
     @PostMapping(path = "/register", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @CrossOrigin
     @Timed
+    @ApiOperation(value = "User Registration", notes = "Registration Controller")
+    @ApiResponses(value = { @ApiResponse(code = 200, message = "Successful"), @ApiResponse(code = 400, message = "Exception") })    
     public ResponseEntity<?> post(@RequestBody User user) {
         Optional<User> findUserByEmail = userService.findUserByEmail(user.getEmail());
+        
         if (findUserByEmail.isPresent()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User already present");
         }
