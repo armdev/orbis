@@ -25,8 +25,8 @@ spring:
     name: marshal
     
   data:
-    mongodb:           
-      uri: mongodb://BingoBongo:Abcdf@mongodb:27017/userDB?authSource=admin   
+    mongodb:
+      uri: mongodb://BingoBongo:Abcdf@mongonode:27017/marshalDB?ssl=false&connectTimeoutMS=300000&minPoolSize=0&maxPoolSize=100&maxIdleTimeMS=900000&authSource=admin
 
             
 eureka:
