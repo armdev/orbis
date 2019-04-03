@@ -1,8 +1,6 @@
 package io.project.app.repositories;
 
-import io.project.app.domain.Question;
-import java.util.List;
-import java.util.Optional;
+import io.project.app.domain.Answer;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
@@ -13,8 +11,6 @@ import org.springframework.stereotype.Repository;
  */
 @Component
 @Repository
-public interface QuestionRepository extends MongoRepository<Question, String> {
-    
-    Optional<List<Question>> findAllOrderByPublishDateDesc();
+public interface AnswerRepository extends MongoRepository<Answer, String> {
     
 }

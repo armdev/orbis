@@ -2,6 +2,7 @@ package io.project.app.domain;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -16,17 +17,22 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @NoArgsConstructor
 @EqualsAndHashCode
 @ToString
-@Document(collection = "answers")
-public class Answers implements Serializable {
+@Document(collection = "questions")
+public class Question implements Serializable {
 
     @Id
     private String id;
     @Indexed
+    private String categoryId;
+    private String categoryName;
+    @Indexed
     private String userId;
     private String username;
-    private String questionId;
-    private String answer;
+    private String title;
+    private String question;
     private Date publishDate;
+    private Date updateDate;
     private Integer status;
+    private List<Answer> answers;
 
 }
