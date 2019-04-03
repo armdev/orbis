@@ -38,9 +38,7 @@
                     <div class="ui-g-12 ui-lg-6">    
                         <h:form id="avatarUpdate" prependId="false" enctype="multipart/form-data"  acceptcharset="utf-8">
                             <div class="card">
-                                
-                                avatar id #{sessionContext.userAvatarId}
-                                <br/>
+                               
                                 
                                 <p:graphicImage url="/PreviewImage?fileId=#{sessionContext.userAvatarId}" rendered="#{sessionContext.userAvatarId != null}"
                                                     width="120px" height="120px"/>
