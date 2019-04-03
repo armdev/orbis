@@ -32,6 +32,21 @@ public class FileService {
     @Autowired
     private FileStorageService fileStorageUtil;
 
+    public FileDTO findUserFile(String id) {
+        FileDTO fileDTO = new FileDTO();
+        Optional<FileModel> userFile = fileModelRepository.findByUserId(id);
+        if (userFile.isPresent()) {
+            byte[] savedFile = fileStorageUtil.readFile(userFile.get().getFilePath());
+            String base64String = Base64.encodeBase64String(savedFile);
+            fileDTO.setFileContent(base64String);
+            log.info("findUserFile file name is " + userFile.get().getFileName());
+            fileDTO.setFileName(userFile.get().getFileName());
+        }
+
+        return fileDTO;
+
+    }
+
     public FileDTO findFile(String id) {
         FileDTO fileDTO = new FileDTO();
         Optional<FileModel> userFile = fileModelRepository.findById(id);
@@ -39,11 +54,24 @@ public class FileService {
             byte[] savedFile = fileStorageUtil.readFile(userFile.get().getFilePath());
             String base64String = Base64.encodeBase64String(savedFile);
             fileDTO.setFileContent(base64String);
-            log.info("file name is "+userFile.get().getFileName());
+            log.info("file name is " + userFile.get().getFileName());
             fileDTO.setFileName(userFile.get().getFileName());
         }
 
         return fileDTO;
+
+    }
+
+    public Optional<FileModel> findByUserId(String id) {
+        log.info("Start findByUserId id " + id);
+        Optional<FileModel> fileModel = fileModelRepository.findByUserId(id);
+
+        if (fileModel.isPresent()) {
+            log.info("GOOD CASE: findByUserId is not empty, found result with given id-" + id);
+            return fileModel;
+        }
+        log.info("BAD CASE: did not found any result with id , returning empty" + id);
+        return Optional.empty();
 
     }
 

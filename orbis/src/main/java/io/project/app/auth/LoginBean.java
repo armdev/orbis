@@ -4,7 +4,9 @@ import io.project.app.unicorn.AuthClient;
 import io.project.app.security.SessionContext;
 import io.project.app.util.CommonConstants;
 import io.project.app.domain.User;
+import io.project.app.dto.FileDTO;
 import io.project.app.dto.Login;
+import io.project.app.unicorn.ProfileClient;
 
 import java.io.Serializable;
 import java.util.PropertyResourceBundle;
@@ -29,39 +31,42 @@ import org.apache.log4j.Logger;
 @Named(value = "loginBean")
 @ViewScoped
 public class LoginBean implements Serializable {
-
+    
     private static final Logger LOGGER = Logger.getLogger(LoginBean.class);
-
+    
     private static final long serialVersionUID = 1L;
-
+    
     @Inject
     private AuthClient userAuthClient;
-
+    
     @Inject
     private SessionContext sessionContext = null;
-
+    
     @Setter
     @Getter
     private Login loginModel;
     private String ipAddress;
-
+    
+    @Inject
+    private ProfileClient profileClient;
+    
     @Setter
     @Getter
     private User user;
-
+    
     public LoginBean() {
         LOGGER.info("##LoginBean called");
     }
-
+    
     @PostConstruct
     public void init() {
         loginModel = new Login();
         user = new User();
         FacesContext context = FacesContext.getCurrentInstance();
         ExternalContext ex = context.getExternalContext();
-
+        
     }
-
+    
     public String loginUser() {
         User user = userAuthClient.userLogin(loginModel);
         if (user.getEmail() == null) {
@@ -69,19 +74,28 @@ public class LoginBean implements Serializable {
             FacesContext.getCurrentInstance().addMessage(null, msg);
             return null;
         }
-
+        
         if (user.getStatus().equals(CommonConstants.ACTIVATED)) {
             sessionContext.setUser(user);
+            
+            FileDTO findUserAvatar = profileClient.findUserAvatar(user.getId());
+            
+            if (findUserAvatar.getId() != null) {
+                LOGGER.info("user avatar id is " + findUserAvatar.getId());
+                
+                sessionContext.setUserAvatarId(findUserAvatar.getId());
+            }
+            
             sessionContext.init();
             return "dashboard";
-
+            
         }
         FacesMessage msg = new FacesMessage(getBundle().getString("nouser"), getBundle().getString("nouser"));
         FacesContext.getCurrentInstance().addMessage(null, msg);
         return null;
-
+        
     }
-
+    
     public String registerUser() {
         LOGGER.info("Register new user, started");
         User returnedUser = userAuthClient.getUserByEmail(user.getEmail());
@@ -91,9 +105,9 @@ public class LoginBean implements Serializable {
             FacesContext.getCurrentInstance().addMessage(null, msg);
             return null;
         }
-
+        
         LOGGER.info("Register new user");
-
+        
         User returnedModel = userAuthClient.userRegistration(user);
         if (returnedModel.getId() != null) {
             return "success";
@@ -101,11 +115,11 @@ public class LoginBean implements Serializable {
             return "fail";
         }
     }
-
+    
     public void validatePassword(ComponentSystemEvent event) {
-
+        
         FacesContext fc = FacesContext.getCurrentInstance();
-
+        
         UIComponent components = event.getComponent();
 
         // get password
@@ -123,26 +137,26 @@ public class LoginBean implements Serializable {
         if (passwd.isEmpty() || confirmPassword.isEmpty()) {
             return;
         }
-
+        
         if (!passwd.equals(confirmPassword)) {
-
+            
             FacesMessage msg = new FacesMessage("Password must match confirm password");
             msg.setSeverity(FacesMessage.SEVERITY_ERROR);
             fc.addMessage(passwordId, msg);
             fc.renderResponse();
-
+            
         }
-
+        
     }
-
+    
     public PropertyResourceBundle getBundle() {
         FacesContext context = FacesContext.getCurrentInstance();
         return context.getApplication().evaluateExpressionGet(context, "#{i18n}", PropertyResourceBundle.class);
     }
-
+    
     public void publishMessage() {
         FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, getBundle().getString("registersuccess"), getBundle().getString("registersuccess"));
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
-
+    
 }

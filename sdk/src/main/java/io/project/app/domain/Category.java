@@ -27,4 +27,11 @@ public class Category implements Serializable {
     private Date updateDate;
     private Integer status;
 
+    public Category(String name, Date publishDate, Date updateDate, Integer status) {
+        this.name = name;
+        this.publishDate = publishDate;
+        this.updateDate = updateDate;
+        this.status = status;
+    }
+
 }

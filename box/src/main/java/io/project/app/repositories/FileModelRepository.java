@@ -16,4 +16,6 @@ public interface FileModelRepository extends MongoRepository<FileModel, String> 
 
     Optional<FileModel> findByIdAndUserId(String id, String userId);
 
+    Optional<FileModel> findByUserId(String userId);
+
 }

@@ -39,10 +39,34 @@ public class ProfileClient implements Serializable {
         LOG.info("ProfileClient called");
     }
 
+    public FileDTO findUserAvatar(String id) {
+        FileDTO fileDTO = new FileDTO();
+        try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
+            LOG.info("findUserAvatar file started ");
+            HttpGet request = new HttpGet(BASE_URL + "/box/api/v2/documents/user/avatar?id=" + id);
+
+            request.addHeader("content-type", "application/json;charset=UTF-8");
+            request.addHeader("charset", "UTF-8");
+
+            long startTime = System.currentTimeMillis();
+            try (CloseableHttpResponse httpResponse = httpClient.execute(request)) {
+                LOG.info("findUserAvatar file  status code " + httpResponse.getStatusLine().getStatusCode());
+                if (httpResponse.getStatusLine().getStatusCode() == 200) {
+                    fileDTO = GsonConverter.fromJson(EntityUtils.toString(httpResponse.getEntity()), FileDTO.class);
+                }
+            }
+            long elapsedTime = System.currentTimeMillis() - startTime;
+            LOG.info("findUserAvatar File started  request/response time in milliseconds: " + elapsedTime);
+        } catch (IOException e) {
+            LOG.error("Exception caught.", e);
+        }
+        return fileDTO;
+    }
+
     public FileDTO getFileById(String id) {
         FileDTO fileDTO = new FileDTO();
         try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
-            LOG.info("Upload file started ");
+            LOG.info("getFileById file started ");
             HttpGet request = new HttpGet(BASE_URL + "/box/api/v2/documents?id=" + id);
 
             request.addHeader("content-type", "application/json;charset=UTF-8");

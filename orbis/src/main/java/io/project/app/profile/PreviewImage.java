@@ -44,6 +44,7 @@ public class PreviewImage extends HttpServlet implements SingleThreadModel {
         FacesContext context = FacesUtil.getFacesContext(request, response);
         ProfileClient appManager = context.getApplication().evaluateExpressionGet(
                 context, "#{profileClient}", ProfileClient.class);
+       
 
         String fileIdStr = request.getParameter("fileId");
         String widthStr = request.getParameter("w");

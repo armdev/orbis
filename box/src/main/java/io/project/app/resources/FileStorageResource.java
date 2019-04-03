@@ -13,6 +13,8 @@ import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
+
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -41,12 +43,23 @@ public class FileStorageResource {
     @PutMapping
     @ResponseBody
     @CrossOrigin
+    @Transactional
     public ResponseEntity<?> put(
             @RequestBody(required = true) FileDTO fileDTO
     ) {
 
         // decode file byte array 
         final byte[] backToBytes = Base64.decodeBase64(fileDTO.getFileContent());
+
+        Optional<FileModel> userPrevFile = fileService.findByUserId(fileDTO.getUserId());
+
+        if (userPrevFile.isPresent()) {
+            log.info("Deleting old file");
+            fileStorageService.removeFile(userPrevFile.get().getFilePath());
+            fileService.deleteById(userPrevFile.get().getId());
+
+        }
+
         String filepath = fileStorageService.storeFile(fileDTO.getFileName(), backToBytes, fileDTO.getUserId());
 
         if (filepath != null) {
@@ -66,6 +79,21 @@ public class FileStorageResource {
         }
 
         return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ApiResponseMessage("Could not save file"));
+    }
+
+    @GetMapping("/user/avatar")
+    @ResponseBody
+    @CrossOrigin
+    @Timed
+    public ResponseEntity<?> fecthUserAvatar(
+            @RequestParam(name = "id", required = true) String id
+    ) {
+
+        FileDTO userFile = fileService.findUserFile(id);
+
+        log.info("get user avatar file " + userFile.getFileName());
+
+        return ResponseEntity.status(HttpStatus.OK).body(userFile);
     }
 
     @GetMapping
