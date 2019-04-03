@@ -31,12 +31,18 @@ public class QuestionService {
     @Autowired
     private MongoTemplate mongoTemplate;
 
-    public Optional<List<Question>> findAllQuestions(Question question) {
+    public Optional<Question> findById(String id) {
+
+        return questionRepository.findById(id);
+    }
+
+    public Optional<List<Question>> findAllQuestions() {
 
         return questionRepository.findAllOrderByPublishDateDesc();
     }
 
     public Question addQuestion(Question question) {
+        question.setId(null);
         question.setPublishDate(new Date(System.currentTimeMillis()));
         return questionRepository.save(question);
     }
