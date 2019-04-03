@@ -32,15 +32,16 @@ public class FileService {
     @Autowired
     private FileStorageService fileStorageUtil;
 
-    public FileDTO findUserFile(String id) {
+    public FileDTO findUserFileId(String userId) {
         FileDTO fileDTO = new FileDTO();
-        Optional<FileModel> userFile = fileModelRepository.findByUserId(id);
+        Optional<FileModel> userFile = fileModelRepository.findByUserId(userId);
         if (userFile.isPresent()) {
-            byte[] savedFile = fileStorageUtil.readFile(userFile.get().getFilePath());
-            String base64String = Base64.encodeBase64String(savedFile);
-            fileDTO.setFileContent(base64String);
+            //  byte[] savedFile = fileStorageUtil.readFile(userFile.get().getFilePath());
+            // String base64String = Base64.encodeBase64String(savedFile);
+            //  fileDTO.setFileContent(base64String);
             log.info("findUserFile file name is " + userFile.get().getFileName());
             fileDTO.setFileName(userFile.get().getFileName());
+            fileDTO.setId(userFile.get().getId());
         }
 
         return fileDTO;

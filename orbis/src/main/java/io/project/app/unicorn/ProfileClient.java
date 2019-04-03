@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.PropertyResourceBundle;
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -22,7 +22,7 @@ import org.apache.http.util.EntityUtils;
 import org.apache.log4j.Logger;
 
 @Named
-@ApplicationScoped
+@SessionScoped
 public class ProfileClient implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -42,7 +42,7 @@ public class ProfileClient implements Serializable {
     public FileDTO findUserAvatar(String id) {
         FileDTO fileDTO = new FileDTO();
         try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
-            LOG.info("findUserAvatar file started ");
+            LOG.info("#####FindUserAvatar file started ");
             HttpGet request = new HttpGet(BASE_URL + "/box/api/v2/documents/user/avatar?id=" + id);
 
             request.addHeader("content-type", "application/json;charset=UTF-8");
@@ -50,15 +50,17 @@ public class ProfileClient implements Serializable {
 
             long startTime = System.currentTimeMillis();
             try (CloseableHttpResponse httpResponse = httpClient.execute(request)) {
-                LOG.info("findUserAvatar file  status code " + httpResponse.getStatusLine().getStatusCode());
+                LOG.info("FindUserAvatar file  status code " + httpResponse.getStatusLine().getStatusCode());
                 if (httpResponse.getStatusLine().getStatusCode() == 200) {
                     fileDTO = GsonConverter.fromJson(EntityUtils.toString(httpResponse.getEntity()), FileDTO.class);
+                    LOG.info("#######File name is " + fileDTO.getFileName());
+                    LOG.info("#########File id is " + fileDTO.getId());
                 }
             }
             long elapsedTime = System.currentTimeMillis() - startTime;
-            LOG.info("findUserAvatar File started  request/response time in milliseconds: " + elapsedTime);
+            LOG.info("@@@@@@@@@@@@@@@@findUserAvatar File started  request/response time in milliseconds: " + elapsedTime);
         } catch (IOException e) {
-            LOG.error("Exception caught.", e);
+            LOG.error("$$$$$Exception caught.", e);
         }
         return fileDTO;
     }

@@ -85,13 +85,14 @@ public class FileStorageResource {
     @ResponseBody
     @CrossOrigin
     @Timed
-    public ResponseEntity<?> fecthUserAvatar(
+    public ResponseEntity<?> fetchAvatar(
             @RequestParam(name = "id", required = true) String id
     ) {
 
-        FileDTO userFile = fileService.findUserFile(id);
+        log.info("!get user id " + id);
+        FileDTO userFile = fileService.findUserFileId(id);
 
-        log.info("get user avatar file " + userFile.getFileName());
+        log.info("!get user avatar file " + userFile.getFileName());
 
         return ResponseEntity.status(HttpStatus.OK).body(userFile);
     }
