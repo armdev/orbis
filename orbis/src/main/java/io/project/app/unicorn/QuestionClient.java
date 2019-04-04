@@ -80,13 +80,13 @@ public class QuestionClient implements Serializable {
         }
         return model;
     }
-    
-     public QuestionDTO findAllUserQuestions(String id) {
+
+    public QuestionDTO findAllUserQuestions(String id) {
         LOG.info("Find Questions for user ");
         QuestionDTO model = new QuestionDTO();
         long startTime = System.currentTimeMillis();
         try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
-            HttpGet request = new HttpGet(BASE_URL + "/marshal/api/v2/questions/find/user/questions");
+            HttpGet request = new HttpGet(BASE_URL + "/marshal/api/v2/questions/find/user/questions?id=" + id);
             request.addHeader("charset", "UTF-8");
             CloseableHttpResponse response = httpClient.execute(request);
             response.addHeader("content-type", "application/json;charset=UTF-8");

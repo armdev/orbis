@@ -18,16 +18,18 @@
                 <h:form prependId="false">
                     <div class="ui-g">
                         <div class="card">
-                            <h1>The list of questions</h1>
+                            <h1>The list of my questions</h1>
                             <div class="ui-g">
                                 <div class="ui-g-12">
-                                    <p:dataTable var="list" id="tbl" value="#{questionListBean.questionList}"
+                                    <p:dataTable var="list" id="tbl" value="#{questionListBean.userQuestionList}"
                                                  paginator="true" rows="30" reflow="true">
                                         <p:column headerText="Posted By">
                                             <h:outputText value="#{list.username}"/>
                                         </p:column>   
                                         <p:column headerText="Title">
+                                            <pre name="code">
                                             <h:outputText value="#{list.title}"/>
+                                            </pre>
                                         </p:column>                                        
                                         <p:column headerText="tags">
                                             <p:chips id="chips" value="#{list.tags}" readonly="true" disabled="true">                                                
