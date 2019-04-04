@@ -39,6 +39,11 @@ public class QuestionService {
     public Optional<Question> findById(String id) {
         return questionRepository.findById(id);
     }
+    
+    public Optional<List<Question>> findUserQuestions(String id) {
+        log.info("Get all questions by user id ");
+        return questionRepository.findAllByUserIdOrderByPublishDateDesc(id);
+    }
 
     public Optional<List<Question>> findAllQuestions() {
         log.info("get all questions");

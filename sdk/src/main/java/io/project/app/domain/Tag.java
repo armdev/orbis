@@ -8,7 +8,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.index.TextIndexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Data
@@ -21,7 +21,7 @@ public class Tag implements Serializable {
 
     @Id
     private String id;
-    @Indexed
+    @TextIndexed(weight=2)
     private String tag;    
     private Date publishDate;
 }

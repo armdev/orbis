@@ -42,6 +42,10 @@ public class QuestionListBean implements Serializable {
     public  List<Question> getQuestionList() {
        return questionClient.findAllQuestions().getQuestionList();        
     }
+    
+     public  List<Question> getUserQuestionList() {
+       return questionClient.findAllUserQuestions(sessionContext.getUser().getId()).getQuestionList();        
+    }
 
     public PropertyResourceBundle getBundle() {
         FacesContext context = FacesContext.getCurrentInstance();

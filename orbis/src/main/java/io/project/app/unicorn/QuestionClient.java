@@ -80,6 +80,28 @@ public class QuestionClient implements Serializable {
         }
         return model;
     }
+    
+     public QuestionDTO findAllUserQuestions(String id) {
+        LOG.info("Find Questions for user ");
+        QuestionDTO model = new QuestionDTO();
+        long startTime = System.currentTimeMillis();
+        try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
+            HttpGet request = new HttpGet(BASE_URL + "/marshal/api/v2/questions/find/user/questions");
+            request.addHeader("charset", "UTF-8");
+            CloseableHttpResponse response = httpClient.execute(request);
+            response.addHeader("content-type", "application/json;charset=UTF-8");
+            try (CloseableHttpResponse httpResponse = httpClient.execute(request)) {
+                if (httpResponse.getStatusLine().getStatusCode() == 200) {
+                    model = GsonConverter.fromJson(EntityUtils.toString(httpResponse.getEntity()), QuestionDTO.class);
+                }
+            }
+            long elapsedTime = System.currentTimeMillis() - startTime;
+            LOG.info("Find user Questions: request/response time in milliseconds: " + elapsedTime);
+        } catch (IOException e) {
+            LOG.error("Exception caught.", e);
+        }
+        return model;
+    }
 
     public Question addQuestion(Question question) {
         Question returnedQuestion = new Question();

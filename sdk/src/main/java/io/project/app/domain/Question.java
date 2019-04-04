@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.index.TextIndexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Data
@@ -25,12 +26,15 @@ public class Question implements Serializable {
     @Indexed
     private String userId;
     private String username;
+    @TextIndexed(weight=2)
     private String title;
+    @TextIndexed(weight=2)
     private String question;
     private Date publishDate;
     private Date updateDate;
     private Integer status;
-    private List<Answer> answers;   
+    private List<Answer> answers; 
+    @TextIndexed(weight=2)
     private List<String> tags;
 
 }

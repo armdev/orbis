@@ -106,4 +106,20 @@ public class QuestionController {
         return ResponseEntity.status(HttpStatus.OK).body(addAnswer.get());
     }
 
+    @GetMapping(path = "/find/user/questions", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @CrossOrigin
+    @Timed
+    public ResponseEntity<?> findAllByByUserId(@RequestParam(name = "id", required = true) String id) {
+        log.info("Find all questions posted by user");
+        
+        QuestionDTO questionDTO = new QuestionDTO();
+
+        if (questionService.findUserQuestions(id).isPresent()) {
+            questionDTO.getQuestionList().addAll(questionService.findUserQuestions(id).get());
+            return ResponseEntity.status(HttpStatus.OK).body(questionDTO);
+        }
+
+        return ResponseEntity.status(HttpStatus.OK).body(questionDTO);
+    }
+
 }
