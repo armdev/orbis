@@ -27,7 +27,7 @@ spring:
     
   data:
     mongodb:           
-      uri: mongodb://BingoBongo:Abcdf@mongodb:27017/userDB?authSource=admin
+      uri: mongodb://BingoBongo:Abcdf@mongodb:27017/userDB?ssl=false&maxPoolSize=100&authSource=admin
 
             
 eureka:

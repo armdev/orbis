@@ -25,10 +25,7 @@ import org.springframework.stereotype.Service;
 public class UserService {
 
     @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private FriendService friendService;
+    private UserRepository userRepository;  
 
     @Autowired
     private MongoTemplate mongoTemplate;
@@ -37,7 +34,7 @@ public class UserService {
         user.setStatus(CommonConstants.ACTIVATED);
         User savedUser = userRepository.save(user);
         UserData userData = new UserData(savedUser.getId(), savedUser.getFirstname(), savedUser.getLastname());
-        friendService.sendUserData(userData);
+        
         return savedUser;
     }
 
@@ -49,16 +46,16 @@ public class UserService {
         return userRepository.findByEmail(email);
     }
 
-    public Optional<List<User>> simpleSearch(String gender, int age, String preferences) {
-        log.info("Simple stupid search started ");
-        Optional<List<User>> findByGenderOrAgeOrPreferences = userRepository.findByGenderOrAgeOrPreferences(gender, age, preferences);
-        if (findByGenderOrAgeOrPreferences.isPresent()) {
-            log.info("List size " + findByGenderOrAgeOrPreferences.get().size());
-            return findByGenderOrAgeOrPreferences;
-        }
-
-        return Optional.empty();
-    }
+//    public Optional<List<User>> simpleSearch(String gender, int age, String preferences) {
+//        log.info("Simple stupid search started ");
+//        Optional<List<User>> findByGenderOrAgeOrPreferences = userRepository.findByGenderOrAgeOrPreferences(gender, age, preferences);
+//        if (findByGenderOrAgeOrPreferences.isPresent()) {
+//            log.info("List size " + findByGenderOrAgeOrPreferences.get().size());
+//            return findByGenderOrAgeOrPreferences;
+//        }
+//
+//        return Optional.empty();
+//    }
 
     public List<User> doSearch(String gender, int age, String preferences) {
 

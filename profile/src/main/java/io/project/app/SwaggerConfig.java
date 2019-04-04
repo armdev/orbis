@@ -19,7 +19,7 @@ public class SwaggerConfig {
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("Register API")
+                .title("Profile API")
                 .description("Hero API")
                 .termsOfServiceUrl("http://www-03.ibm.com/software/sla/sladb.nsf/sla/bm?Open")
                 .contact("Armen Arzumanyan")
@@ -32,7 +32,7 @@ public class SwaggerConfig {
     @Bean
     public Docket personApi() {
         return new Docket(DocumentationType.SWAGGER_2).enable(true)
-                .groupName("register")
+                .groupName("Profile")
                 .apiInfo(apiInfo())
                 .select()
                 .paths(regex("/api.*"))

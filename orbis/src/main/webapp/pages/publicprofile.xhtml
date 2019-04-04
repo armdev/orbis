@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"    
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"     
+      xmlns:jsf="http://xmlns.jcp.org/jsf"         
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"   
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">     
+
+    <f:view contracts="default" encoding="UTF-8" transient="false">
+        <ui:composition template="/template.xhtml">
+            <ui:define name="title">Driver Profile</ui:define>
+
+            <ui:define name="head">
+                <style type="text/css">
+                    .nba-grid {
+                        width: 100%;
+                        table-layout: fixed;
+                        word-wrap: break-word;
+                    }
+
+                    .ui-scrollpanel-content p:first-child {
+                        margin: 0;
+                    }
+                </style>
+            </ui:define>
+
+            <ui:define name="content">
+                <div class="ui-g">
+                    <div class="ui-g-12">
+                        <div class="card card-w-title">
+
+                            <p:panel id="basic" header="Driver in Route">                               
+
+                                <h:graphicImage name="images/driver.png" style="width: 300px; height: 200px" library="icarus-layout"/>
+                                <p:rating  value="6" stars="10" readonly="true"/>                               
+                                <br/><br/>
+                              
+                            </p:panel>
+
+                            <p:button outcome="attached" value="BACK"/>
+                        </div>
+                    </div>
+                </div>
+            </ui:define>
+        </ui:composition>
+    </f:view>
+</html>

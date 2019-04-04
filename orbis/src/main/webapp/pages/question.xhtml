@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"    
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"     
+      xmlns:jsf="http://xmlns.jcp.org/jsf"         
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"   
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">   
+
+    <f:view contracts="default" encoding="UTF-8" transient="false">
+        <ui:composition template="/template.xhtml">  
+            <ui:define name="head">
+                <style type="text/css">
+                    .grid-pad .ui-panelgrid-content .ui-panelgrid-cell.ui-grid-col-12 {
+                        padding-bottom: 10px;
+                    }
+                </style>
+                <ui:remove>
+                    <h:head>
+                        <style type="text/css">
+                            .nba-grid {
+                                width: 100%;
+                                table-layout: fixed;
+                                word-wrap: break-word;
+                            }
+                        </style>
+                        <f:metadata>          
+                            <f:viewParam id="id" name="id" value="#{profileBean.userPassword}"/>
+                        </f:metadata>  
+                    </h:head>
+                </ui:remove>
+            </ui:define>
+            <ui:define name="content">
+                <p:growl/>
+                <div class="ui-g ui-fluid">
+                    <div class="ui-g-12 ui-lg-6">                        
+                        <h:form id="questionForm" prependId="false" >
+                            <div class="card">
+                                <h1>Ask Question</h1>    
+                                <div class="card">
+                                    <h1>Question</h1>
+                                    <p:inputText placeholder="Title " value="#{addQuestionBean.question.title}">
+                                        <f:validateLength maximum="100"/>
+                                    </p:inputText>
+                                    <p:inputTextarea rows="3" placeholder="Your Message" value="#{addQuestionBean.question.question}">
+                                        <f:validateLength maximum="500"/>
+                                    </p:inputTextarea>
+                                    <h1>Tags</h1>
+                                    <h:panelGrid columns="2">
+                                        <p:chips id="chips" value="#{addQuestionBean.question.tags}">
+                                            <p:ajax event="click" update="chips" />
+                                        </p:chips>
+                                    </h:panelGrid>
+                                </div>
+                                <p:commandButton type="submit" ajax="false" value="Add Question" action="#{addQuestionBean.addQuestion()}"  />
+                            </div>
+                        </h:form>
+                    </div>
+                </div>
+            </ui:define>
+        </ui:composition>
+    </f:view>
+</html>

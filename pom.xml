@@ -7,12 +7,14 @@
     <packaging>pom</packaging>
     <modules>        
         <module>sdk</module>
-        <module>auth</module>
+        <module>auth</module>	
         <module>zuul</module>       
         <module>register</module>      
         <module>profile</module>	
-        <module>eureka</module>   
-             
+        <module>eureka</module> 
+        <module>box</module>
+        <module>marshal</module>
+        <module>orbis</module>             
     </modules>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

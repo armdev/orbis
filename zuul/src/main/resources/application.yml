@@ -1,0 +1,65 @@
+zuul:
+  prefix: /orbis
+  routes:
+    auth:
+      path: /auth/**
+      url: http://auth:4001
+    box:
+      path: /box/**
+      url: http://box:4002
+    register:
+      path: /register/**
+      url: http://register:4004  
+    profile:
+      path: /profile/**
+      url: http://profile:4006 
+    marshal:
+      path: /marshal/**
+      url: http://marshal:4007 
+   
+
+server:
+   port: 8079
+
+management:
+  security:  
+    enabled: false    
+
+spring:
+  application:
+    name: zuul
+  servlet:
+   multipart:
+      max-file-size: 5MB
+      max-request-size: 5MB
+    
+ 
+    
+eureka:
+  instance:  
+    leaseRenewalIntervalInSeconds: 10
+    prefer-ip-address: true
+    leaseExpirationDurationInSeconds: 3
+  client:
+    enabled: true
+    registryFetchIntervalSeconds: 5   
+    healthcheck:
+      enabled: true
+    serviceUrl:
+      defaultZone: ${EUREKA_URI:http://eureka:8761/eureka}
+
+auth:
+    ribbon:
+     ReadTimeout: 10000
+register:
+    ribbon:
+     ReadTimeout: 10000
+profile:
+    ribbon:
+     ReadTimeout: 10000
+box:
+    ribbon:
+     ReadTimeout: 10000
+marshal:
+    ribbon:
+     ReadTimeout: 10000

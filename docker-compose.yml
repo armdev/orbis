@@ -74,6 +74,36 @@ services:
       - orbis
 
 
+  box:
+    image: box   
+    build: ./box
+    container_name: box
+    restart: always
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "10"
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 120s
+    links:      
+      - mongodb 
+      - eureka
+    depends_on:     
+      - mongodb
+      - eureka     
+    ports:
+      - '4002:4002'
+    volumes:
+      - /opt/box/logs/:/opt/box/logs
+      - /opt/filestorage/:/opt/filestorage/
+    networks:
+      - orbis
+
+
   register:
     image: register   
     build: ./register
@@ -131,6 +161,47 @@ services:
       - /opt/profile/logs/:/opt/profile/logs
     networks:
       - orbis
+      
+  marshal:
+    image: marshal   
+    build: ./marshal
+    container_name: marshal
+    restart: always
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "10"
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 120s
+    links:      
+      - mongodb 
+      - eureka
+    depends_on:     
+      - mongodb
+      - eureka     
+    ports:
+      - '4007:4007'
+    volumes:
+      - /opt/marshal/logs/:/opt/marshal/logs
+    networks:
+      - orbis
+      
+  orbis:    
+    image: orbis 
+    build: ./orbis                
+    container_name: orbis
+    links:      
+      - zuul     
+    volumes:
+     - /opt/orbis/logs/:/opt/orbis/logs
+    ports:
+     - '9595:8080'  
+    networks:
+     - orbis
 
 
 networks:

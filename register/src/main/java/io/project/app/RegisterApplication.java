@@ -3,7 +3,9 @@ package io.project.app;
 import io.project.app.domain.User;
 import io.project.app.repositories.UserRepository;
 import io.project.app.services.UserService;
+import io.project.app.util.PasswordHash;
 import java.util.Date;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.Banner;
 import org.springframework.boot.CommandLineRunner;
@@ -39,19 +41,27 @@ public class RegisterApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        userRepository.deleteAll();
-        userService.save(new User("Adam", "Trust", "a@gmail.com", "aaaaaa", "098545242", "MALE", 25, "I want strong relationship", new Date(), 1));
-        userService.save(new User("Ben", "Red", "b@gmail.com", "aaaaaa", "098545242", "MALE", 35, "I need blond girl", new Date(), 1));
-        userService.save(new User("Den", "White", "c@gmail.com", "aaaaaa", "098545242", "MALE", 33, "strong", new Date(), 1));
-        userService.save(new User("Carlos", "Alarm", "d@gmail.com", "aaaaaa", "098545242", "MALE", 22, "strong", new Date(), 1));
-        userService.save(new User("Lina", "Ross", "e@gmail.com", "aaaaaa", "098545242", "FEMALE", 26, "Only Sex", new Date(), 1));
-        userService.save(new User("Dina", "Cross", "f@gmail.com", "aaaaaa", "098545242", "FEMALE", 21, "Only Marry", new Date(), 1));
-        userService.save(new User("Anna", "Tross", "g@gmail.com", "aaaaaa", "098545242", "FEMALE", 33, "sport", new Date(), 1));
-        userService.save(new User("Lala", "Bross", "h@gmail.com", "aaaaaa", "098545242", "FEMALE", 41, "sport", new Date(), 1));
-        userService.save(new User("Anna", "Blue", "m@gmail.com", "aaaaaa", "098545242", "FEMALE", 35, "sex", new Date(), 1));
-        userService.save(new User("Alen", "Simon", "s@gmail.com", "aaaaaa", "098545242", "MALE", 39, "Watch TV", new Date(), 1));
-        userService.save(new User("Michael", "Limon", "mm@gmail.com", "aaaaaa", "098545242", "MALE", 42, "strong", new Date(), 1));
-        userService.save(new User("Dana", "Bama", "dd@gmail.com", "aaaaaa", "098545242", "FEMALE", 42, "strong", new Date(), 1));
+
+        Optional<User> findByEmail = userRepository.findByEmail("a@gmail.com");
+        
+        if (!findByEmail.isPresent()) {
+            userService.save(new User("Adam", "Trust", "a@gmail.com", PasswordHash.hashPassword("aaaaaa"), "098545242", "MALE", 25, new Date(), 1));
+        }
+
+        Optional<User> findByEmail1 = userRepository.findByEmail("b@gmail.com");
+        if (!findByEmail1.isPresent()) {
+            userService.save(new User("Ben", "Red", "b@gmail.com", PasswordHash.hashPassword("aaaaaa"), "098545242", "MALE", 35, new Date(), 1));
+        }
+
+        Optional<User> findByEmail2 = userRepository.findByEmail("c@gmail.com");
+        if (!findByEmail2.isPresent()) {
+            userService.save(new User("Dana", "White", "c@gmail.com", PasswordHash.hashPassword("aaaaaa"), "098545242", "FEMALE", 33, new Date(), 1));
+        }
+
+        Optional<User> findByEmail3 = userRepository.findByEmail("d@gmail.com");
+        if (!findByEmail3.isPresent()) {
+            userService.save(new User("Lina", "Ross", "d@gmail.com", PasswordHash.hashPassword("aaaaaa"), "098545242", "FEMALE", 22, new Date(), 1));
+        }
 
     }
 }

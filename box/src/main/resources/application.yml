@@ -1,0 +1,38 @@
+fileStoragePath: /opt/filestorage/
+
+server:
+    port: 4002
+
+spring:    
+  application:
+    name: box
+
+  data:
+    mongodb:           
+      uri: mongodb://BingoBongo:Abcdf@mongodb:27017/fileStorageDB?ssl=false&maxPoolSize=100&authSource=admin
+      
+  servlet:
+    multipart:
+        max-file-size: 5MB
+        max-request-size: 5MB
+
+       
+eureka:
+  instance:  
+    leaseRenewalIntervalInSeconds: 10
+    prefer-ip-address: true
+    leaseExpirationDurationInSeconds: 3
+  client:
+    enabled: true
+    registryFetchIntervalSeconds: 5   
+    healthcheck:
+      enabled: true
+    serviceUrl:
+      defaultZone: ${EUREKA_URI:http://eureka:8761/eureka}
+            
+
+
+
+        
+       
+       

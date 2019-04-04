@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.optym.zull</groupId>
+    <groupId>io.project.app</groupId>
     <artifactId>zuul</artifactId>
-    <version>com.optym.zull</version>
+    <version>io.project.app</version>
     <packaging>jar</packaging>
     <name>zuul</name>
     <description>zuul</description>
@@ -21,6 +21,18 @@
         <spring-cloud.version>Greenwich.RELEASE</spring-cloud.version>
     </properties>
     <dependencies>
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+            <version>2.9.2</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger-ui</artifactId>
+            <version>2.9.2</version>
+            <scope>compile</scope>
+        </dependency>
         <dependency>
             <groupId>javax.xml.bind</groupId>
             <artifactId>jaxb-api</artifactId>
@@ -69,9 +81,7 @@
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-netflix-zuul</artifactId>           
-        </dependency>
-      
-              
+        </dependency>              
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>           

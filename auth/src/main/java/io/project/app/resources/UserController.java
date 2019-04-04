@@ -3,6 +3,8 @@ package io.project.app.resources;
 import io.project.app.services.UserService;
 import io.micrometer.core.annotation.Timed;
 import io.project.app.dto.Login;
+import io.project.app.util.PasswordHash;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.http.HttpStatus;
@@ -20,8 +22,9 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/api/v2/users")
+@Slf4j
 public class UserController {
-
+    
     @Autowired
     private UserService userService;
 
@@ -34,7 +37,8 @@ public class UserController {
     @CrossOrigin
     @Timed
     public ResponseEntity<?> post(@RequestBody Login login) {
-        return ResponseEntity.status(HttpStatus.OK).body(userService.userLogin(login.getEmail(), login.getPassword()).get());
+        log.info("user login");
+        return ResponseEntity.status(HttpStatus.OK).body(userService.userLogin(login.getEmail(), PasswordHash.hashPassword(login.getPassword())).get());
     }
-
+    
 }
