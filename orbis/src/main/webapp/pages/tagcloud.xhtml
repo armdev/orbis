@@ -15,15 +15,15 @@
 
             </ui:define>
             <ui:define name="content">
-                <h:form prependId="false">
+                <h:form prependId="true">
                     <div class="ui-g">
                         <div class="card">
-                            <h1>Tags</h1>
+                            <h1>Search Tags</h1>
                             <div class="ui-g">
                                 <div class="ui-g-12">
                                     <p:growl id="msgs" showDetail="true" />
-                                    <p:tagCloud model="#{tagCloudView.model}">
-                                        <p:ajax event="select" update="msgs" listener="#{tagCloudView.onSelect}" />
+                                    <p:tagCloud model="#{tagsBean.model}">
+                                        <p:ajax event="select" update="msgs" listener="#{tagsBean.onSelect}" />
                                     </p:tagCloud>
                                 </div>
                             </div>
