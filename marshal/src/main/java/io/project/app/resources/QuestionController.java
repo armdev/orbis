@@ -47,7 +47,7 @@ public class QuestionController {
         , @ApiResponse(code = 400, message = "Exception")})
     public ResponseEntity<?> post(@RequestBody Question question) {
 
-        if (question.getCategoryId() == null || question.getUserId() == null || question.getUsername() == null || question.getTitle() == null) {
+        if (question.getUserId() == null || question.getUsername() == null || question.getTitle() == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("One of mandatory fields is empty");
         }
 

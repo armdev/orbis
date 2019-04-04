@@ -28,7 +28,6 @@
                         </style>
                         <f:metadata>          
                             <f:viewParam id="id" name="id" value="#{profileBean.userPassword}"/>
-
                         </f:metadata>  
                     </h:head>
                 </ui:remove>
@@ -37,29 +36,25 @@
                 <p:growl/>
                 <div class="ui-g ui-fluid">
                     <div class="ui-g-12 ui-lg-6">                        
-                        <h:form id="updateprofile" prependId="false" >
+                        <h:form id="questionForm" prependId="false" >
                             <div class="card">
                                 <h1>Ask Question</h1>    
                                 <div class="card">
-                                    <h1>Category</h1>
-                                    <p:selectOneMenu id="console" value="#{profileBean.userPassword}" style="margin-bottom:10px;">
-                                        <f:selectItem itemLabel="Select One" itemValue="" />
-                                        <f:selectItem itemLabel="Xbox One" itemValue="Xbox One" />
-                                        <f:selectItem itemLabel="PS4" itemValue="PS4" />
-                                        <f:selectItem itemLabel="Wii U" itemValue="Wii U" />
-                                    </p:selectOneMenu>
                                     <h1>Question</h1>
-                                    <p:inputTextarea rows="3" placeholder="Your Message"/>
-                                      <h1>Tags</h1>
+                                    <p:inputText placeholder="Title " value="#{addQuestionBean.question.title}">
+                                        <f:validateLength maximum="100"/>
+                                    </p:inputText>
+                                    <p:inputTextarea rows="3" placeholder="Your Message" value="#{addQuestionBean.question.question}">
+                                        <f:validateLength maximum="500"/>
+                                    </p:inputTextarea>
+                                    <h1>Tags</h1>
                                     <h:panelGrid columns="2">
-                                        
-                                        <p:chips id="chips">
-                                            <p:ajax event="click" update="chips"/>
+                                        <p:chips id="chips" value="#{addQuestionBean.question.tags}">
+                                            <p:ajax event="click" update="chips" />
                                         </p:chips>
                                     </h:panelGrid>
                                 </div>
-
-                                <p:commandButton type="submit" ajax="false" value="Save New password" action="#{profileBean.updatePassword()}"  />
+                                <p:commandButton type="submit" ajax="false" value="Add Question" action="#{addQuestionBean.addQuestion()}"  />
                             </div>
                         </h:form>
                     </div>

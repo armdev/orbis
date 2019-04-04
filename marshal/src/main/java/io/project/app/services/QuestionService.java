@@ -32,13 +32,12 @@ public class QuestionService {
     private MongoTemplate mongoTemplate;
 
     public Optional<Question> findById(String id) {
-
         return questionRepository.findById(id);
     }
 
     public Optional<List<Question>> findAllQuestions() {
-
-        return questionRepository.findAllOrderByPublishDateDesc();
+        log.info("get all questions");
+        return questionRepository.findAllByOrderByPublishDateDesc();
     }
 
     public Question addQuestion(Question question) {

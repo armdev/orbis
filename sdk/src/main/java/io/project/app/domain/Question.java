@@ -21,10 +21,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Question implements Serializable {
 
     @Id
-    private String id;
-    @Indexed
-    private String categoryId;
-    private String categoryName;
+    private String id; 
     @Indexed
     private String userId;
     private String username;
