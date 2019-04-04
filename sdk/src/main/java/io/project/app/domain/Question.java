@@ -33,6 +33,7 @@ public class Question implements Serializable {
     private Date publishDate;
     private Date updateDate;
     private Integer status;
-    private List<Answer> answers;
+    private List<Answer> answers;   
+    private List<String> tags;
 
 }

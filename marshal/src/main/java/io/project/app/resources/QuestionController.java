@@ -3,6 +3,7 @@ package io.project.app.resources;
 import io.micrometer.core.annotation.Timed;
 import io.project.app.domain.Answer;
 import io.project.app.domain.Question;
+import io.project.app.dto.QuestionDTO;
 import io.project.app.services.QuestionService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -64,7 +65,14 @@ public class QuestionController {
     @Timed
     public ResponseEntity<?> get() {
         log.info("Find all questions");
-        return ResponseEntity.status(HttpStatus.OK).body(questionService.findAllQuestions().get());
+        QuestionDTO questionDTO = new QuestionDTO();
+
+        if (questionService.findAllQuestions().isPresent()) {
+            questionDTO.getQuestionList().addAll(questionService.findAllQuestions().get());
+            return ResponseEntity.status(HttpStatus.OK).body(questionDTO);
+        }
+
+        return ResponseEntity.status(HttpStatus.OK).body(questionDTO);
     }
 
     @GetMapping(path = "/find/id", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
@@ -94,7 +102,7 @@ public class QuestionController {
             log.error("Cant save answer");
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error during save");
         }
-        
+
         return ResponseEntity.status(HttpStatus.OK).body(addAnswer.get());
     }
 
