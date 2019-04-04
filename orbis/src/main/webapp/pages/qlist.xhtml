@@ -16,7 +16,33 @@
             </ui:define>
             <ui:define name="content">
                 <h:form prependId="false">
+                    <div class="dashboard">
+                        <div class="ui-g">
+                            <div class="ui-g-12 ui-md-12">
+                                <p:panel header="Questions" style="height:100%">
+                                    <ul class="contacts">
+                                        <p:repeat value="#{questionListBean.questionList}" var="list">
+                                            <li>
+                                                <a href="#{request.contextPath}/pages/open.jsf?id=#{list.id}">
+                                                    <p:graphicImage name="images/avatar_2.png" library="icarus-layout" width="35" style="border: 0 none;"/>
+
+
+                                                    <span class="name">#{list.username}</span>
+                                                    <span class="email">  #{list.title}</span>
+                                                    
+                                                  
+                                                </a>
+                                            </li>
+
+
+                                        </p:repeat>
+                                    </ul>
+                                </p:panel>
+                            </div>
+                        </div>
+                    </div>
                     <div class="ui-g">
+
                         <div class="card">
                             <h1>The list of questions</h1>
                             <div class="ui-g">
@@ -30,9 +56,9 @@
                                         <p:column headerText="Title">
                                             <h:outputText value="#{list.title}"/>
                                         </p:column>   
-                                     
+
                                         <p:column headerText="tags">
-                                            <p:chips id="chips" value="#{list.tags}" readonly="true" disabled="true">                                                
+                                            <p:chips id="chips" value="#{list.tags}" readonly="false" disabled="true">                                                
                                             </p:chips>
                                         </p:column> 
                                         <p:column headerText="Open">
