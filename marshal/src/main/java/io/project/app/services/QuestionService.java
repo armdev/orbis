@@ -2,6 +2,7 @@ package io.project.app.services;
 
 import io.project.app.domain.Answer;
 import io.project.app.domain.Question;
+import io.project.app.domain.Tag;
 import io.project.app.repositories.AnswerRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import io.project.app.repositories.QuestionRepository;
+import io.project.app.repositories.TagRepository;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -31,6 +33,9 @@ public class QuestionService {
     @Autowired
     private MongoTemplate mongoTemplate;
 
+    @Autowired
+    private TagRepository tagRepository;
+
     public Optional<Question> findById(String id) {
         return questionRepository.findById(id);
     }
@@ -43,6 +48,17 @@ public class QuestionService {
     public Question addQuestion(Question question) {
         question.setId(null);
         question.setPublishDate(new Date(System.currentTimeMillis()));
+
+        question.getTags().forEach((str) -> {
+            Optional<Tag> findByTag = tagRepository.findByTag(str);
+            Tag tag = null;
+            if (!findByTag.isPresent()) {
+                tag = new Tag();
+                tag.setTag(str);
+                tag.setPublishDate(new Date(System.currentTimeMillis()));
+                tagRepository.save(tag);
+            }
+        });
         return questionRepository.save(question);
     }
 
