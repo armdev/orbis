@@ -44,7 +44,7 @@
                                 </p:repeat>
                             </p:panel>
                             <br/>
-                            <p:inputTextarea rows="6" cols="80" placeholder="Your Message" value="#{openQuestionBean.answer.answer}"/>
+                            <p:inputTextarea rows="6" cols="80" placeholder="Your Message" required="true" value="#{openQuestionBean.answer.answer}"/>
                             <br/>
                             <p:commandButton type="submit" ajax="false"  value="Answer" action="#{openQuestionBean.addAnswer()}"  />
                             <br/>
