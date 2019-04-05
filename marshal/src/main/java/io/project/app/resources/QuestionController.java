@@ -93,9 +93,11 @@ public class QuestionController {
     public ResponseEntity<?> put(@RequestBody Answer answer) {
 
         if (answer.getQuestionId() == null || answer.getUserId() == null || answer.getUsername() == null) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("One of mandatory fields is empty");
+            log.error("One of mandatory fields are empty");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("One of mandatory fields are empty");
         }
 
+         log.info("OK: addAnswer ");
         Optional<Answer> addAnswer = questionService.addAnswer(answer);
 
         if (!addAnswer.isPresent()) {
@@ -103,6 +105,7 @@ public class QuestionController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error during save");
         }
 
+        log.info("OK: " +addAnswer.get());
         return ResponseEntity.status(HttpStatus.OK).body(addAnswer.get());
     }
 
@@ -111,7 +114,7 @@ public class QuestionController {
     @Timed
     public ResponseEntity<?> findAllByByUserId(@RequestParam(name = "id", required = true) String id) {
         log.info("Find all questions posted by user");
-        
+
         QuestionDTO questionDTO = new QuestionDTO();
 
         if (questionService.findUserQuestions(id).isPresent()) {

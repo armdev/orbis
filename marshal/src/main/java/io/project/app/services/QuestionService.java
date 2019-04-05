@@ -73,11 +73,18 @@ public class QuestionService {
     }
 
     public Optional<Answer> addAnswer(Answer answer) {
+        log.info("Started add anwser");
         Optional<Question> question = questionRepository.findById(answer.getQuestionId());
+        
         if (question.isPresent()) {
+            log.info("question is present");
             answer.setPublishDate(new Date(System.currentTimeMillis()));
+            
             Answer savedAnswer = answerRepository.save(answer);
-            question.get().getAnswers().add(savedAnswer);
+            log.info("saved Answer  " + savedAnswer.toString());
+            question.get().getAnswers().add(0,savedAnswer);
+            
+            questionRepository.save(question.get());
             return Optional.ofNullable(savedAnswer);
         }
         return Optional.ofNullable(answer);

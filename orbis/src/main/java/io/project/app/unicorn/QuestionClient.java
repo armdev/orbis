@@ -1,5 +1,6 @@
 package io.project.app.unicorn;
 
+import io.project.app.domain.Answer;
 import io.project.app.domain.Question;
 import io.project.app.dto.QuestionDTO;
 import io.project.app.util.GsonConverter;
@@ -106,7 +107,7 @@ public class QuestionClient implements Serializable {
     public Question addQuestion(Question question) {
         Question returnedQuestion = new Question();
         try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
-            LOG.info("addQuestion");
+            LOG.info("Add Question");
             HttpPost request = new HttpPost(BASE_URL + "/marshal/api/v2/questions/question");
 
             String toJson = GsonConverter.toJson(question);
@@ -123,6 +124,32 @@ public class QuestionClient implements Serializable {
             }
             long elapsedTime = System.currentTimeMillis() - startTime;
             LOG.info("Add Question:  finished: request/response time in milliseconds: " + elapsedTime);
+        } catch (IOException e) {
+            LOG.error("Exception caught.", e);
+        }
+        return returnedQuestion;
+    }
+
+    public Answer addAnswer(Answer answer) {
+        Answer returnedQuestion = new Answer();
+        try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
+            LOG.info("Add Answer");
+            HttpPost request = new HttpPost(BASE_URL + "/marshal/api/v2/questions/answer");
+
+            String toJson = GsonConverter.toJson(answer);
+            StringEntity params = new StringEntity(toJson, "UTF-8");
+            request.addHeader("content-type", "application/json;charset=UTF-8");
+            request.addHeader("charset", "UTF-8");
+            request.setEntity(params);
+            long startTime = System.currentTimeMillis();
+            try (CloseableHttpResponse httpResponse = httpClient.execute(request)) {
+                LOG.info("Answer: started  status code " + httpResponse.getStatusLine().getStatusCode());
+                if (httpResponse.getStatusLine().getStatusCode() == 200) {
+                    returnedQuestion = GsonConverter.fromJson(EntityUtils.toString(httpResponse.getEntity()), Answer.class);
+                }
+            }
+            long elapsedTime = System.currentTimeMillis() - startTime;
+            LOG.info("Add Answer:  finished: request/response time in milliseconds: " + elapsedTime);
         } catch (IOException e) {
             LOG.error("Exception caught.", e);
         }

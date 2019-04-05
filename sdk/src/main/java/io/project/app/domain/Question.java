@@ -1,6 +1,7 @@
 package io.project.app.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -33,8 +34,8 @@ public class Question implements Serializable {
     private Date publishDate;
     private Date updateDate;
     private Integer status;
-    private List<Answer> answers; 
+    private List<Answer> answers = new ArrayList<>(); 
     @TextIndexed(weight=2)
-    private List<String> tags;
+    private List<String> tags = new ArrayList<>(); 
 
 }

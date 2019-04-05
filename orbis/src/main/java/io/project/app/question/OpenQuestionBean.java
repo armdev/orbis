@@ -1,11 +1,14 @@
 package io.project.app.question;
 
+import io.project.app.domain.Answer;
 import io.project.app.domain.Question;
 import io.project.app.security.SessionContext;
 import io.project.app.unicorn.QuestionClient;
+import java.io.IOException;
 
 import java.io.Serializable;
 import java.util.PropertyResourceBundle;
+import java.util.logging.Level;
 import javax.annotation.PostConstruct;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
@@ -29,11 +32,14 @@ public class OpenQuestionBean implements Serializable {
     private SessionContext sessionContext;
 
     private FacesContext context;
+
     private ExternalContext externalContext;
 
     private String questionId;
 
     private Question question = new Question();
+
+    private Answer answer = new Answer();
 
     public OpenQuestionBean() {
     }
@@ -58,7 +64,19 @@ public class OpenQuestionBean implements Serializable {
         return returnValue;
     }
 
-  
+    public void addAnswer() {
+        try {
+            answer.setQuestionId(questionId);
+            answer.setUserId(sessionContext.getUser().getId());
+            answer.setUsername(sessionContext.getUser().getFirstname() + " " + sessionContext.getUser().getLastname());
+
+            questionClient.addAnswer(answer);
+            FacesContext.getCurrentInstance().getExternalContext().redirect("open.jsf?id=" + questionId);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+
+    }
 
     public PropertyResourceBundle getBundle() {
         FacesContext context = FacesContext.getCurrentInstance();
