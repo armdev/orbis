@@ -28,24 +28,28 @@
             </ui:define>
             <ui:define name="content">
                 <h:form prependId="false">
-                     <p:growl/>
+                    <p:growl/>
                     <div class="dashboard">
-                        <div class="ui-g">
-                            <div class="ui-g-12 ui-md-12">
-                                <p:panel header="Question thread" style="height:100%">
-                                    <ul class="contacts">
-                                        <li>
-                                            <pe:letterAvatar value="#{openQuestionBean.question.username}" height="50" width="50" />
-                                            <span class="name">
-                                                #{openQuestionBean.question.title}
-                                            </span>
-                                            <span class="email">
-                                                #{openQuestionBean.question.question}
-                                            </span>                                                    
-                                        </li>
-                                    </ul>
-                                </p:panel>
-                            </div>
+
+                        <div class="card">
+                            <p:panel id="basic" header="Question thread" footer="#{openQuestionBean.question.question}" style="margin-bottom:20px">
+                                <h:panelGrid columns="2" cellpadding="10">
+                                    <pe:letterAvatar value="#{openQuestionBean.question.username}" height="50" width="50" />
+                                    <h:outputText
+                                        value="#{openQuestionBean.question.title}" />
+                                </h:panelGrid>
+
+                                <h2>Tags</h2>
+                                <p:repeat value="#{openQuestionBean.question.tags}" var="list">
+                                    #{list.toString()}
+                                </p:repeat>
+
+                            </p:panel>
+
+                            <br/>
+                            <p:inputTextarea rows="6" cols="80" placeholder="Your Message"/>
+                            <br/>
+                            <p:commandButton type="submit" ajax="false" value="Answer" action="#{addQuestionBean.addQuestion()}"  />
                         </div>
                     </div>                   
                 </h:form>
