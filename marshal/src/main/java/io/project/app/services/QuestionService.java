@@ -46,8 +46,8 @@ public class QuestionService {
     }
 
     public Optional<List<Question>> findAllQuestions() {
-        log.info("get all questions");
-        return questionRepository.findAllByOrderByPublishDateDesc();
+        log.info("get 100 questions");
+        return questionRepository.findTop100ByOrderByPublishDateDesc();
     }
 
     public Question addQuestion(Question question) {

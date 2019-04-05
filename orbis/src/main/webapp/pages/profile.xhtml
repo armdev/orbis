@@ -7,7 +7,9 @@
       xmlns:jsf="http://xmlns.jcp.org/jsf"         
       xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"   
       xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">   
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:pe="http://primefaces.org/ui/extensions">   
+
 
     <f:view contracts="default" encoding="UTF-8" transient="false">
         <ui:composition template="/template.xhtml">  
@@ -38,17 +40,17 @@
                     <div class="ui-g-12 ui-lg-6">    
                         <h:form id="avatarUpdate" prependId="false" enctype="multipart/form-data"  acceptcharset="utf-8">
                             <div class="card">
-                               
-                                
+
+
                                 <p:graphicImage url="/PreviewImage?fileId=#{sessionContext.userAvatarId}" rendered="#{sessionContext.userAvatarId != null}"
-                                                    width="120px" height="120px"/>
+                                                width="120px" height="120px"/>
                                 <br/>
                                 <h:inputFile id="file"  value="#{fileUploadBean.uploadedFile}"/>  
                                 <br/>  <br/>
-                               
-                                 <p:commandButton type="submit" ajax="false" value="Upload Photo" action="#{fileUploadBean.doAction()}"  />
+
+                                <p:commandButton type="submit" ajax="false" value="Upload Photo" action="#{fileUploadBean.doAction()}"  />
                             </div>
-                            
+
                         </h:form>
                         <h:form id="updateprofile" prependId="false" >
                             <div class="card">
@@ -80,11 +82,11 @@
                                         <f:validateRequired/>
                                         <f:validateLength maximum="10"/>                            
                                     </p:inputText> 
-                                    <p:inputText placeholder="mobileno" title="mobileno" required="true"
-                                                 value="#{profileBean.userModel.mobileno}">                                       
-                                        <f:validateRequired/>
-                                        <f:validateLength maximum="30"/>                            
-                                    </p:inputText> 
+                                    <pe:inputPhone id="mobileno"   
+                                                   initialCountry="auto"  
+                                                   geoIpLookup="myGeoIpLookup"  
+                                                   value="#{profileBean.userModel.mobileno}">  
+                                    </pe:inputPhone>  
                                     <p:inputText placeholder="age" title="age" required="true"
                                                  value="#{profileBean.userModel.age}">                                       
                                         <f:validateRequired/>
@@ -94,6 +96,16 @@
                                 </p:panelGrid>
                                 <p:commandButton type="submit" ajax="false" value="Save or Update" action="#{profileBean.updateProfile()}"  />
                             </div>
+                            <script>
+                                //<![CDATA[ 
+                                var myGeoIpLookup = function (success, failure) {
+                                    $.get("https://ipinfo.io", function () {}, "jsonp").always(function (resp) {
+                                        var countryCode = (resp && resp.country) ? resp.country : "";
+                                        success(countryCode);
+                                    });
+                                }
+                                //]]>  
+                            </script>  
                         </h:form>
                     </div>
                 </div>

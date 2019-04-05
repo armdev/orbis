@@ -16,6 +16,7 @@ import org.springframework.stereotype.Repository;
 public interface QuestionRepository extends MongoRepository<Question, String> {
     
     Optional<List<Question>> findAllByOrderByPublishDateDesc();
+    Optional<List<Question>> findTop100ByOrderByPublishDateDesc();
     Optional<List<Question>> findAllByUserIdOrderByPublishDateDesc(String userId);
     
 }
