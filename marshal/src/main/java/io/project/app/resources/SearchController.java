@@ -30,9 +30,15 @@ public class SearchController {
     @CrossOrigin
     public ResponseEntity<?> search(@RequestParam(name = "tag", required = true) String searchQuery) {
         log.info("REST request to start search " + searchQuery);
+
         SearchResultDTO searchResultDTO = new SearchResultDTO();
+
         final List<Question> searchResult = searchService.matchWithQuery(searchQuery);
+
         searchResultDTO.getQuestionList().addAll(searchResult);
+
+        log.info("Returned list  size " + searchResultDTO.getQuestionList().size());
+
         return ResponseEntity.status(HttpStatus.OK).body(searchResultDTO);
     }
 

@@ -26,6 +26,7 @@ public class SearchService {
         TextCriteria criteria = TextCriteria.forDefaultLanguage().matching(queryText);
         TextQuery query = TextQuery.queryText(criteria).sortByScore();
         List<Question> foundList = mongoTemplate.find(query, Question.class);
+        log.info("Found List  size " + foundList.size());
         return foundList;
     }
 

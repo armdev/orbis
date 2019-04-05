@@ -1,10 +1,14 @@
 package io.project.app.tags;
 
+import io.project.app.domain.Question;
 import io.project.app.domain.Tag;
+import io.project.app.dto.SearchResultDTO;
 import io.project.app.security.SessionContext;
+import io.project.app.unicorn.SearchClient;
 import io.project.app.unicorn.TagClient;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.PropertyResourceBundle;
 import javax.annotation.PostConstruct;
@@ -30,11 +34,16 @@ public class TagsBean implements Serializable {
 
     @Inject
     private TagClient tagClient;
+    
+    @Inject
+    private SearchClient searchClient;
 
     private TagCloudModel model;
 
     @Inject
     private SessionContext sessionContext = null;
+    
+    private List<Question> questionList = new ArrayList<>();
 
     public TagsBean() {
     }
@@ -56,8 +65,11 @@ public class TagsBean implements Serializable {
 
     public void onSelect(SelectEvent event) {
         TagCloudItem item = (TagCloudItem) event.getObject();
-        FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Item Selected", item.getLabel());
+        FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Search with: ", item.getLabel());
         FacesContext.getCurrentInstance().addMessage(null, msg);
+        SearchResultDTO search = searchClient.search(item.getLabel());
+        questionList.clear();
+        questionList.addAll(search.getQuestionList());
     }
 
     public PropertyResourceBundle getBundle() {

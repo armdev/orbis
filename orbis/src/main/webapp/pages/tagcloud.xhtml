@@ -23,8 +23,27 @@
                                 <div class="ui-g-12">
                                     <p:growl id="msgs" showDetail="true" />
                                     <p:tagCloud model="#{tagsBean.model}">
-                                        <p:ajax event="select" update="msgs" listener="#{tagsBean.onSelect}" />
+                                        <p:ajax event="select" update="msgs tbl"  listener="#{tagsBean.onSelect}" />
                                     </p:tagCloud>
+                                </div>
+                                <div class="ui-g-12">
+                                    <p:dataTable var="list" id="tbl" value="#{tagsBean.questionList}"
+                                                 paginator="true" rows="30" reflow="true">
+                                        <p:column headerText="Posted By">
+                                            <h:outputText value="#{list.username}"/>
+                                        </p:column>   
+                                        <p:column headerText="Title">
+                                            <pre name="code">
+                                            <h:outputText value="#{list.title}"/>
+                                            </pre>
+                                        </p:column>                                      
+                                        <p:column headerText="Open">
+                                            <h:outputLink value="#{request.contextPath}/pages/open.jsf">
+                                                <h:outputText value="Open Thread"/>
+                                                <f:param name="id" value="#{list.id}"/>
+                                            </h:outputLink> 
+                                        </p:column>
+                                    </p:dataTable> 
                                 </div>
                             </div>
                         </div>
