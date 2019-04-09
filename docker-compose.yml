@@ -13,6 +13,34 @@ services:
     networks:
       - orbis
 
+  admin:
+    image: admin   
+    build: ./admin
+    container_name: admin
+    restart: always
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "10"
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 120s
+    links:  
+     
+      - eureka
+    depends_on:     
+      
+      - eureka     
+    ports:
+      - '1111:1111'
+    volumes:
+      - /opt/admin/logs/:/opt/admin/logs
+    networks:
+      - orbis
+
   zuul:
     image: zuul    
     build: ./zuul
