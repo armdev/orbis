@@ -26,8 +26,8 @@ public class User implements Serializable {
     private String password;
     private String mobileno;   
     private String gender;
-    private int age;
-    
+    private String userType;//shipper/caree     
+    private int age;   
     
     private Date registerDate;
     private Integer status;

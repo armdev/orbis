@@ -6,7 +6,7 @@
     <version>1.0</version>
     <packaging>pom</packaging>
     <modules>        
-        <module>sdk</module>
+        <module>sdk</module>        
         <module>admin</module>  
         <module>auth</module>	
         <module>zuul</module>       
@@ -15,6 +15,8 @@
         <module>eureka</module> 
         <module>box</module>
         <module>marshal</module>
+        <module>payment</module>
+        <module>shipment</module>
         <module>orbis</module>             
     </modules>
     <properties>

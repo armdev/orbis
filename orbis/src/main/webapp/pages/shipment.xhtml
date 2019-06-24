@@ -1,0 +1,209 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"    
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"     
+      xmlns:jsf="http://xmlns.jcp.org/jsf"         
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"   
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">   
+
+    <f:view contracts="default" encoding="UTF-8" transient="false">
+        <ui:composition template="/template.xhtml">  
+            <ui:define name="head">
+                <style type="text/css">
+                    .grid-pad .ui-panelgrid-content .ui-panelgrid-cell.ui-grid-col-12 {
+                        padding-bottom: 10px;
+                    }
+                </style>
+                <style type="text/css">
+                    .label {
+                        width:20%;
+                        padding:4px;
+                    }
+
+                    .value {
+                        width:80%;
+                        padding:4px;
+                    }
+
+                    .grid {
+                        width:100%;
+                    }
+
+                    .error {
+                        color: red;
+                    }
+
+                    .outputLabel {
+                        font-weight: bold;
+                    }
+
+                    .grid {
+                        width:33%;
+                        padding:4px;
+                    }
+                </style>
+            </ui:define>
+            <ui:define name="content">
+                <p:growl/>
+                <div class="ui-g ui-fluid">
+                    <div class="ui-g-12 ui-lg-6">                        
+                        <h:form id="addShipment">
+                            <div class="card">
+                                <h1>New Shipment</h1>
+                                <p:growl id="growl" sticky="true" showDetail="true"/>
+
+                                <p:wizard flowListener="#{newShipment.onFlowProcess}" backLabel="Back" nextLabel="Next" showNavBar="true">
+
+                                    <p:tab id="fromAddress" title="From">
+                                        <p:panel header="Address Details" id="fromAddressForm">
+                                            <p:messages />
+                                            <h:panelGrid columns="2" columnClasses="label, value">
+                                                <h:outputText value="City: " />
+                                                <p:inputText id="cityFrom" value="#{newShipment.addressFrom.city}" required="true"/>
+
+                                                <h:outputText value="State Id " />
+                                                <p:inputText id="stateFrom"  value="#{newShipment.addressFrom.state}" required="true" />
+
+                                                <h:outputText value="Postal Code: " />
+                                                <p:inputText id="postalCodeFrom" value="#{newShipment.addressFrom.postalCode}" />
+
+                                                <h:outputText value="Street " />
+                                                <p:inputText id="streetFrom" value="#{newShipment.addressFrom.street}" required="true"/>
+
+                                                <h:outputText value="Contact Name " />
+                                                <p:inputText id="contactNameFrom" value="#{newShipment.addressFrom.contactName}" required="true"/>
+
+                                                <h:outputText value="Company Name " />
+                                                <p:inputText id="companyNameFrom" value="#{newShipment.addressFrom.companyName}" />
+
+                                                <h:outputText value="E-mail " />
+                                                <p:inputText id="emailFrom" value="#{newShipment.addressFrom.email}" />
+
+                                                <h:outputText value="Phone " />
+                                                <p:inputText id="phoneFrom" value="#{newShipment.addressFrom.phone}" required="true"/>
+
+                                                <h:outputText value="Skype " />
+                                                <p:inputText id="skypeFrom"  value="#{newShipment.addressFrom.skype}" />                                   
+
+                                            </h:panelGrid>
+                                        </p:panel>
+                                    </p:tab>
+                                    <p:tab id="toAddress" title="To">
+                                        <p:panel header="Address Details" id="toAddressForm">
+                                            <p:messages />
+                                            <h:panelGrid columns="2" columnClasses="label, value">
+                                                <h:outputText value="City: " />
+                                                <p:inputText id="cityTo"  value="#{newShipment.addressTo.city}" required="true"/>
+
+                                                <h:outputText value="State Id " />
+                                                <p:inputText id="stateTo"  value="#{newShipment.addressTo.state}" required="true" />
+
+                                                <h:outputText value="Postal Code: " />
+                                                <p:inputText id="postalCodeTo"  value="#{newShipment.addressTo.postalCode}" />
+
+                                                <h:outputText value="Street " />
+                                                <p:inputText id="streetTo"  value="#{newShipment.addressTo.street}" required="true"/>
+
+                                                <h:outputText value="Contact Name " />
+                                                <p:inputText id="contactNameTo"  value="#{newShipment.addressTo.contactName}" required="true"/>
+
+                                                <h:outputText value="Company Name " />
+                                                <p:inputText id="companyNameTo"  value="#{newShipment.addressTo.companyName}" />
+
+                                                <h:outputText value="E-mail " />
+                                                <p:inputText id="emailTo"  value="#{newShipment.addressTo.email}" />
+
+                                                <h:outputText value="Phone " />
+                                                <p:inputText id="phoneTo" value="#{newShipment.addressTo.phone}" required="true"/>
+
+                                                <h:outputText value="Skype " />
+                                                <p:inputText id="skypeTo"  value="#{newShipment.addressTo.skype}" />                              
+
+                                            </h:panelGrid>
+                                        </p:panel>
+                                    </p:tab>
+
+                                    <p:tab id="pickUp" title="Pick Up/Delivery">
+                                        <p:panel header="Shipment Details">
+                                            <p:messages />
+                                            <h:panelGrid columns="2" columnClasses="label, value">
+                                                <h:outputText value="Shipment Type " />                                            
+                                                <p:selectOneMenu id="shipmentType" style="width:  200px" value="#{newShipment.shipment.shipmentType}" autoWidth="false">
+                                                    <f:selectItem itemLabel="FTL" itemValue="FTL" />
+                                                    <f:selectItem itemLabel="LTL" itemValue="LTL" />
+                                                </p:selectOneMenu>
+                                                <h:outputText value="Equipment Type " />
+                                                <p:selectOneMenu id="equipment" value="#{newShipment.shipment.equipment}" required="true" caseSensitive="true" style="width:56%;">                           
+                                                    <f:selectItems value="#{newShipment.equipmentList}" var="list" itemLabel="#{list.key}"  itemValue="#{list.value}"/>
+                                                </p:selectOneMenu>
+                                                <h:outputText value="Stops count " />
+                                                <p:inputText id="stops" value="#{newShipment.shipment.stops}"/>
+
+                                                <h:outputText value="Rate" />
+                                                <p:inputText id="rate" value="#{newShipment.shipment.rate}"/>
+                                                <h:outputText value="Pickup " />
+                                                <p:calendar id="pickupDate" value="#{newShipment.shipment.pickupDate}" pattern="MM/dd/yyyy HH:mm:ss" />
+
+                                                <h:outputText value="Delivery " />
+
+                                                <p:calendar id="deliveryDate" value="#{newShipment.shipment.deliveryDate}" pattern="MM/dd/yyyy HH:mm:ss" />
+
+
+
+                                            </h:panelGrid>
+                                        </p:panel>
+                                    </p:tab>
+
+                                    <p:tab id="finalSave" title="Final Step">
+                                        <p:panel header="Final Step">
+                                            <p:messages />
+                                            <h:panelGrid columns="2" columnClasses="label, value">
+
+                                                <h:outputText value="From City " />
+                                                <h:outputText value="#{newShipment.addressFrom.city}" /> 
+                                                <h:outputText value="From State " />
+                                                <h:outputText value="#{newShipment.addressFrom.state}" /> 
+
+                                                <h:outputText value="To City " />
+                                                <h:outputText value="#{newShipment.addressTo.city}" /> 
+                                                <h:outputText value="To State" />
+                                                <h:outputText value="#{newShipment.addressTo.state}" /> 
+                                                <h:outputText value="Shipment Type " />      
+                                                <h:outputText value="#{newShipment.shipment.shipmentType}" /> 
+                                                <h:outputText value="Equipment Type " />      
+                                                <h:outputText value="#{newShipment.shipment.equipment}" /> 
+
+                                                <h:outputText value="Rate" />
+                                                <h:outputText value="#{newShipment.shipment.rate}"/>
+                                                 <h:outputText value="Pick up " />
+                                                <h:outputText  value="#{newShipment.shipment.pickupDate}"/>
+
+                                                <h:outputText value="Delivery " />
+
+                                                <h:outputText value="#{newShipment.shipment.deliveryDate}" />
+
+
+                                                <p:commandButton value="Add Shipment" action="#{newShipment.save}" update="growl" process="@this"/>
+
+                                            </h:panelGrid>
+                                        </p:panel>
+                                    </p:tab>
+
+
+
+
+                                </p:wizard>
+
+                            </div>
+                        </h:form>
+
+
+                    </div>
+                </div>
+            </ui:define>
+        </ui:composition>
+    </f:view>
+</html>

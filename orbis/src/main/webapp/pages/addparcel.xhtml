@@ -1,0 +1,154 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"    
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"     
+      xmlns:jsf="http://xmlns.jcp.org/jsf"         
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"   
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">   
+
+    <f:view contracts="default" encoding="UTF-8" transient="false">
+        <h:head>
+            <f:metadata>  
+                <f:viewParam id="shipmentId" name="shipmentId" value="#{addParcelBean.shipmentId}"/>              
+            </f:metadata>  
+        </h:head>
+        <ui:composition template="/template.xhtml">  
+            <ui:define name="head">
+                <style type="text/css">
+                    .grid-pad .ui-panelgrid-content .ui-panelgrid-cell.ui-grid-col-12 {
+                        padding-bottom: 10px;
+                    }
+                </style>
+                <style type="text/css">
+                    .label {
+                        width:20%;
+                        padding:4px;
+                    }
+
+                    .value {
+                        width:80%;
+                        padding:4px;
+                    }
+
+                    .grid {
+                        width:100%;
+                    }
+
+                    .error {
+                        color: red;
+                    }
+
+                    .outputLabel {
+                        font-weight: bold;
+                    }
+
+                    .grid {
+                        width:33%;
+                        padding:4px;
+                    }
+                </style>
+            </ui:define>
+            <ui:define name="content">               
+                <div class="container">
+                    <div class="ui-g ui-fluid">
+                        <div class="ui-g-12 ui-lg-4">
+                            <!-- Left Side -->
+                            <div class="card">
+                                <p:panel header="Add Parcel To Shipment"  id="tpanel" style="margin-bottom:20px">
+                                    <h:form prependId="false" id="requestForm">       
+                                        <p:growl/>
+                                        <div class="ui-g-12">
+                                            <div class="ui-g-12">
+                                                <p:selectOneMenu id="boxType" value="#{addParcelBean.parcel.boxType}" required="true" caseSensitive="true" style="width:56%;">                           
+                                                    <f:selectItems value="#{addParcelBean.packageList}" var="list" itemLabel="#{list.key}"  itemValue="#{list.value}"/>
+                                                </p:selectOneMenu>
+                                            </div>
+
+                                            <div class="ui-g-12">
+                                                <p:inputText placeholder="quantity" id="quantity" value="#{addParcelBean.parcel.quantity}" required="false" readonly="false"/>
+                                            </div>
+                                            
+                                            <div class="ui-g-12">
+                                                <p:inputText placeholder="weight" id="weight" value="#{addParcelBean.parcel.weight}" required="false" readonly="false"/>
+                                            </div>
+                                             <div class="ui-g-12">
+                                                 <p:inputText placeholder="weightUnit" id="weightUnit" value="#{addParcelBean.parcel.weightUnit}" required="false" readonly="false"/>
+                                            </div>
+                                            
+                                             <div class="ui-g-12">
+                                                 <p:inputText placeholder="width" id="width" value="#{addParcelBean.parcel.width}" required="false" readonly="false"/>
+                                            </div>
+                                             <div class="ui-g-12">
+                                                 <p:inputText placeholder="height" id="height" value="#{addParcelBean.parcel.height}" required="false" readonly="false"/>
+                                            </div>
+                                              <div class="ui-g-12">
+                                                 <p:inputText placeholder="depth" id="depth" value="#{addParcelBean.parcel.depth}" required="false" readonly="false"/>
+                                            </div>
+                                              <div class="ui-g-12">
+                                                 <p:inputText placeholder="dimensionUnit" id="dimensionUnit" value="#{addParcelBean.parcel.dimensionUnit}" required="false" readonly="false"/>
+                                            </div>
+                                             <div class="ui-g-12">
+                                                 <p:inputTextarea placeholder="description" id="description" value="#{addParcelBean.parcel.description}" required="false" readonly="false"/>
+                                            </div>
+                                        </div>                                       
+
+
+                                        <p:commandButton  ajax="false" value="Add Parcel" action="#{addParcelBean.updateParcel()}" styleClass="red-button" icon="fa fa-check"/>
+
+
+                                    </h:form>
+                                </p:panel>
+                            </div>
+                        </div>
+
+                        <div class="ui-g-12 ui-lg-6">
+                            <!-- Right Side -->
+                            <div class="card">
+                                <h1>Parcel List</h1>                                
+                                <p:panel header="Parcels"  id="loadPanel" style="background:#fff;height:100%">
+
+                                    <h:form prependId="false" id="mloads">       
+                                       
+                                        <p:spacer/>
+                                        <p:dataTable var="list" id="loadList" value="#{addParcelBean.shipment.parcels}"
+                                                     paginator="true" rows="30" reflow="true">
+                                            <p:column headerText="Box Type">
+                                                <h:outputText value="#{list.boxType}"/>
+                                            </p:column>   
+                                          
+                                            <p:column headerText="Quantity">
+                                                <h:outputText value="#{list.quantity}"/>
+                                            </p:column> 
+                                            <p:column headerText="WeightUnit">
+                                                <h:outputText value="#{list.weightUnit}"/>
+                                            </p:column> 
+                                            <p:column headerText="Weight">
+                                                <h:outputText value="#{list.weight}"/>
+                                            </p:column> 
+                                             <p:column headerText="Description">
+                                                <h:outputText value="#{list.description}"/>
+                                            </p:column> 
+                                            <p:column headerText="Delete">
+                                                <h:outputLink value="#{request.contextPath}/pages/api/details.jsf">
+                                                    <h:outputText value="Delete"/>
+                                                  
+                                                </h:outputLink> 
+                                            </p:column>
+                                        </p:dataTable> 
+                                    </h:form>
+                                </p:panel>
+                            </div>
+                        </div>
+
+                    </div>                       
+                </div>
+
+
+
+            </ui:define>
+        </ui:composition>
+    </f:view>
+</html>

@@ -218,6 +218,64 @@ services:
     networks:
       - orbis
       
+  payment:
+    image: payment   
+    build: ./payment
+    container_name: payment
+    restart: always
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "10"
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 120s
+    links:      
+      - mongodb 
+      - eureka
+    depends_on:     
+      - mongodb
+      - eureka
+      - zuul     
+    ports:
+      - '4003:4003'
+    volumes:
+      - /opt/payment/logs/:/opt/payment/logs
+    networks:
+      - orbis
+      
+  shipment:
+    image: shipment   
+    build: ./shipment
+    container_name: shipment
+    restart: always
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "10"
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 120s
+    links:      
+      - mongodb 
+      - eureka
+    depends_on:     
+      - mongodb
+      - eureka
+      - zuul   
+    ports:
+      - '4005:4005'
+    volumes:
+      - /opt/shipment/logs/:/opt/shipment/logs
+    networks:
+      - orbis
+      
   orbis:    
     image: orbis 
     build: ./orbis                

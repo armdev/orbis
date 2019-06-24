@@ -7,15 +7,22 @@ zuul:
     box:
       path: /box/**
       url: http://box:4002
+    payment:
+      path: /payment/**
+      url: http://payment:4003 
     register:
       path: /register/**
-      url: http://register:4004  
+      url: http://register:4004
+    shipment:
+      path: /shipment/**
+      url: http://shipment:4005  
     profile:
       path: /profile/**
       url: http://profile:4006 
     marshal:
       path: /marshal/**
-      url: http://marshal:4007 
+      url: http://marshal:4007
+
    
 
 server:
