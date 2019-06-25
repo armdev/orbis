@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"    
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"     
+      xmlns:jsf="http://xmlns.jcp.org/jsf"         
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"   
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">   
+
+    <f:view contracts="default" encoding="UTF-8" transient="false">
+        <ui:composition template="/template.xhtml">  
+            <ui:define name="head">
+                <script type="text/javascript">
+                    //<![CDATA[
+                    function skinChart() {
+                        this.cfg.shadow = false;
+                        this.cfg.title = '';
+                        this.cfg.seriesColors = ['#FFC107', '#03A9F4'];
+                        this.cfg.grid = {
+                            background: '#ffffff',
+                            borderColor: '#ffffff',
+                            gridLineColor: '#EEEEEE',
+                            shadow: false
+                        };
+                        this.cfg.axesDefaults = {
+                            rendererOptions: {
+                                textColor: '#212121'
+                            }
+                        };
+                        this.cfg.seriesDefaults = {
+                            shadow: false,
+                            lineWidth: 1,
+                            markerOptions: {
+                                shadow: false,
+                                size: 7,
+                                style: 'circle'
+                            }
+                        }
+                    }
+                    //]]>  
+                </script>
+                <style type="text/css">
+                    .main-content {
+                        padding: 0;
+                    }
+                </style>
+            </ui:define>
+            <ui:define name="content">
+                <div class="ui-g dashboard">                  
+                    <div class="ui-g-12 ui-md-8">
+                        <h:form prependId="false">
+                            <p:growl id="messages"/>
+                            <p:panel header="Calendar" style="height:100%; width:100%;">
+                                <p:schedule id="schedule" value="#{scheduleView.eventModel}" widgetVar="myschedule">
+                                    <p:ajax event="dateSelect" listener="#{scheduleView.onDateSelect}" update="eventDetails" oncomplete="PF('eventDialog').show();" />
+                                    <p:ajax event="eventSelect" listener="#{scheduleView.onEventSelect}" update="eventDetails" oncomplete="PF('eventDialog').show();" />                               
+                                </p:schedule>
+                                <p:dialog widgetVar="eventDialog" header="Event Details" showEffect="clip" hideEffect="clip">
+                                    <h:panelGrid id="eventDetails" columns="2">
+                                        <p:outputLabel for="from" value="From" />
+                                        <p:inputText id="from" required="true" style="width:300px;"  value="#{scheduleView.event.from}">
+                                            <f:validateLength maximum="100"/>
+                                        </p:inputText>
+                                        <p:outputLabel for="to" value="To" />
+                                        <p:inputText id="to" required="true" style="width:300px;"  value="#{scheduleView.event.to}">
+                                            <f:validateLength maximum="100"/>
+                                        </p:inputText>
+
+                                        <p:outputLabel for="payout" value="Payout" />
+                                        <p:inputText id="payout" required="true" style="width:300px;"  value="#{scheduleView.event.payout}">
+                                            <f:validateLength maximum="100"/>
+                                        </p:inputText>
+                                        <p:outputLabel for="shipper" value="Shipper" />
+                                        <p:inputText id="shipper" required="true" style="width:300px;"  value="#{scheduleView.event.shipper}">
+                                            <f:validateLength maximum="100"/>
+                                        </p:inputText>
+
+                                        <p:outputLabel for="duration" value="Duration" />
+                                        <p:inputText id="duration" required="true" style="width:300px;"  value="#{scheduleView.event.duration}">
+                                            <f:validateLength maximum="100"/>
+                                        </p:inputText>
+
+                                    </h:panelGrid>
+
+                                </p:dialog>
+
+                            </p:panel>
+                        </h:form>
+                    </div>                  
+                </div>
+
+            </ui:define>
+        </ui:composition>
+    </f:view>
+</html>
