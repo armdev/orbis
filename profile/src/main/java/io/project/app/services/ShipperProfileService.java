@@ -29,7 +29,7 @@ public class ShipperProfileService {
         Optional<User> findUser = userService.findUser(shipperAccount.getUserId());
         if (findUser.isPresent()) {
             log.info("Account belong to the " + findUser.get().getEmail());
-            if (findUser.get().getAccountType().equalsIgnoreCase("Career")) {
+            if (findUser.get().getAccountType().equalsIgnoreCase("Shipper")) {
                 log.info("We can update career account");
                 shipperAccount.setUpdateAt(new Date(System.currentTimeMillis()));
                 return shipperRepository.save(shipperAccount);
