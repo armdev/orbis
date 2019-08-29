@@ -23,31 +23,18 @@ public class Address implements Serializable {
 
     @Indexed
     private String userId;
-
     private String country;
-
     private String contactName;
-
     private String phone;
-
     private String fax;
-
     private String skype;
-
     private String email;
-
     private String companyName;
-
     private String street;
-
     private String city;
-
     private String state;
-
     private String postalCode;
-
     private String type;
-
     private Float latitude;
     private Float longitude;
     private float baseRateDollars;

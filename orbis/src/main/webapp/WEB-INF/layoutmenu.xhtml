@@ -11,15 +11,21 @@
 
 
     <h:form id="menuformleft">           
-        <pi:menu widgetVar="Dashboard menu">
+        <pi:menu widgetVar="Orbis">
             <p:menuitem id="bm_dashboard" value="Dashboard" icon="fa fa-home" outcome="/pages/dashboard"/>
-            <p:submenu id="sh_profile" label="My Dashboard" icon="fa fa-bank">
-                <p:menuitem id="profilepage" value="Profile update" ajax="false" outcome="/pages/profile"/>
+            
+            <p:submenu id="sh_profile" label="Timeline" icon="fa fa-bank">
+                <p:menuitem id="orgprofile" value="Company" ajax="false" outcome="/pages/orgprofile"/>
+                <p:menuitem id="profilepage" value="Personal" ajax="false" outcome="/pages/profile"/>
                 <p:menuitem id="changepswd" value="Change password" ajax="false" outcome="/pages/password"/>
             </p:submenu>
-            <p:menuitem id="newshipment" value="Post Shipment" ajax="false" outcome="/pages/shipment"/>
-            <p:menuitem id="allshipment" value="Shipments" ajax="false" outcome="/pages/shipmentlist"/>            
-            <p:menuitem id="schedule" value="Schedule" ajax="false" outcome="/pages/schedule"/>            
+            
+            <p:menuitem id="newshipment" value="Post Shipment" ajax="false" outcome="/pages/shipment" rendered="#{sessionContext.user.accountType == 'Shipper'}"/>
+            
+            <p:menuitem id="allshipment" value="Shipments" ajax="false" outcome="/pages/shipmentlist" rendered="#{sessionContext.user.accountType == 'Shipper'}"/>            
+            
+            <p:menuitem id="schedule" value="Schedule" ajax="false" outcome="/pages/schedule"/>        
+            
             <p:submenu id="question" label="My Questions" icon="fa fa-certificate">
                 <p:menuitem id="askQuestion" value="Ask Question" ajax="false" outcome="/pages/question"/>
                 <p:menuitem id="qList" value="Question Bank" ajax="false" outcome="/pages/qlist"/>

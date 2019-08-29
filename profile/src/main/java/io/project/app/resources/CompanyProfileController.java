@@ -46,13 +46,14 @@ public class CompanyProfileController {
     @Timed
     public ResponseEntity<?> put(@RequestBody ShipperAccount shipperAccount) {
         log.info("Shipper profile update");
-        Optional<User> findUser = userService.findUser(shipperAccount.getId());
+        Optional<User> findUser = userService.findUser(shipperAccount.getUserId());
         if (findUser.isPresent()) {
             ShipperAccount updateAccount = shipperProfileService.saveOrUpdate(shipperAccount);
             if (updateAccount.getId() != null) {
                 return ResponseEntity.status(HttpStatus.OK).body(updateAccount);
             }
         }
+        
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Could not update account");
     }
 
@@ -61,7 +62,7 @@ public class CompanyProfileController {
     @Timed
     public ResponseEntity<?> update(@RequestBody CareerAccount careerAccount) {
         log.info("career profile update");
-        Optional<User> findUser = userService.findUser(careerAccount.getId());
+        Optional<User> findUser = userService.findUser(careerAccount.getUserId());
         if (findUser.isPresent()) {
             CareerAccount updateAccount = careerProfileService.saveOrUpdate(careerAccount);
             if (updateAccount.getId() != null) {

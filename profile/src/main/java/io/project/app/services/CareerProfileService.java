@@ -9,7 +9,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
-
 /**
  *
  * @author armen
@@ -37,10 +36,9 @@ public class CareerProfileService {
         }
         log.error("Wrong credentials for profile update");
         return careerAccount;
-
     }
-    
-     public Optional<CareerAccount> findProfile(String id) {
+
+    public Optional<CareerAccount> findProfile(String id) {
         return careerRepository.findByUserId(id);
 
     }

@@ -1,0 +1,90 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"    
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"     
+      xmlns:jsf="http://xmlns.jcp.org/jsf"         
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"   
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:pe="http://primefaces.org/ui/extensions">   
+
+
+    <f:view contracts="default" encoding="UTF-8" transient="false">
+        <ui:composition template="/template.xhtml">  
+            <ui:define name="head">
+                <style type="text/css">
+                    .grid-pad .ui-panelgrid-content .ui-panelgrid-cell.ui-grid-col-12 {
+                        padding-bottom: 10px;
+                    }
+                </style>
+                <ui:remove>
+                    <h:head>
+                        <style type="text/css">
+                            .nba-grid {
+                                width: 100%;
+                                table-layout: fixed;
+                                word-wrap: break-word;
+                            }
+                        </style>
+
+                    </h:head>
+                </ui:remove>
+            </ui:define>
+            <ui:define name="content">
+                <p:growl/>
+                <div class="ui-g ui-fluid">
+                    <div class="ui-g-12 ui-lg-6"> 
+
+                        <h:form id="updateprofile" prependId="false" rendered="#{sessionContext.user.accountType == 'Shipper'}">
+                            <div class="card">
+                                <h1>Profile update</h1>                              
+                                <p:growl id="messages" showDetail="true" life="2000" />
+                                <p:panelGrid columns="1" layout="grid" style="border:0px !important; background:none;" styleClass="ui-panelgrid-blank">
+
+
+                                    <p:inputText placeholder="Company Name" id="companyName" title="Company Name" required="true" readonly="false"
+                                                 value="#{companyProfileBean.shipperAccount.address.companyName}">                                       
+                                        <f:validateRequired/>
+                                        <f:validateLength maximum="100"/>                            
+                                    </p:inputText> 
+
+                                    <p:inputText placeholder="City" id="city" title="City" required="true" readonly="false"
+                                                 value="#{companyProfileBean.shipperAccount.address.city}">                                       
+                                        <f:validateRequired/>
+                                        <f:validateLength maximum="100"/>                            
+                                    </p:inputText> 
+
+                                    <p:inputText placeholder="State" id="state" title="State" required="true" readonly="false"
+                                                 value="#{companyProfileBean.shipperAccount.address.state}">                                       
+                                        <f:validateRequired/>
+                                        <f:validateLength maximum="100"/>                            
+                                    </p:inputText> 
+
+                                    <p:inputText placeholder="Street" id="street" title="street" required="true" readonly="false"
+                                                 value="#{companyProfileBean.shipperAccount.address.street}">                                       
+                                        <f:validateRequired/>
+                                        <f:validateLength maximum="100"/>                            
+                                    </p:inputText> 
+
+                                    <p:inputText placeholder="Description" id="description" title="description" required="true" readonly="false"
+                                                 value="#{companyProfileBean.shipperAccount.description}">                                       
+                                        <f:validateRequired/>
+                                        <f:validateLength maximum="100"/>                            
+                                    </p:inputText> 
+
+
+
+
+                                </p:panelGrid>
+                                <p:commandButton type="submit" ajax="false" value="Update" action="#{companyProfileBean.updateShipperProfile()}"/>
+                            </div>
+
+                        </h:form>
+                    </div>
+                </div>
+            </ui:define>
+        </ui:composition>
+    </f:view>
+</html>

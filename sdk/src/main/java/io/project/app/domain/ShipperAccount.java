@@ -30,8 +30,7 @@ public class ShipperAccount implements Serializable {
     private String slug;
     private String timezone;
     private Date updateAt;
-    private Address address;
-
+    private Address address = new Address();
     private Map<String, String> credentials = new HashMap<>();
 
 }
