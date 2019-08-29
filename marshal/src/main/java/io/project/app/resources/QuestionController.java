@@ -1,9 +1,10 @@
 package io.project.app.resources;
 
 import io.micrometer.core.annotation.Timed;
+import io.project.app.api.responses.QuestionApiResponse;
 import io.project.app.domain.Answer;
 import io.project.app.domain.Question;
-import io.project.app.dto.QuestionDTO;
+
 import io.project.app.services.QuestionService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -65,7 +66,7 @@ public class QuestionController {
     @Timed
     public ResponseEntity<?> get() {
         log.info("Find all questions");
-        QuestionDTO questionDTO = new QuestionDTO();
+        QuestionApiResponse questionDTO = new QuestionApiResponse();
 
         if (questionService.findAllQuestions().isPresent()) {
             questionDTO.getQuestionList().addAll(questionService.findAllQuestions().get());
@@ -115,7 +116,7 @@ public class QuestionController {
     public ResponseEntity<?> findAllByByUserId(@RequestParam(name = "id", required = true) String id) {
         log.info("Find all questions posted by user");
 
-        QuestionDTO questionDTO = new QuestionDTO();
+        QuestionApiResponse questionDTO = new QuestionApiResponse();
 
         if (questionService.findUserQuestions(id).isPresent()) {
             questionDTO.getQuestionList().addAll(questionService.findUserQuestions(id).get());

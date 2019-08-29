@@ -1,7 +1,7 @@
 package io.project.app.resources;
 
+import io.project.app.api.responses.SearchApiResponse;
 import io.project.app.domain.Question;
-import io.project.app.dto.SearchResultDTO;
 import io.project.app.services.SearchService;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
@@ -31,7 +31,7 @@ public class SearchController {
     public ResponseEntity<?> search(@RequestParam(name = "tag", required = true) String searchQuery) {
         log.info("REST request to start search " + searchQuery);
 
-        SearchResultDTO searchResultDTO = new SearchResultDTO();
+        SearchApiResponse searchResultDTO = new SearchApiResponse();
 
         final List<Question> searchResult = searchService.matchWithQuery(searchQuery);
 

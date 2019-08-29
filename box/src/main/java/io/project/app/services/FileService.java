@@ -5,8 +5,8 @@
  */
 package io.project.app.services;
 
+import io.project.app.api.requests.FileRequest;
 import io.project.app.domain.FileModel;
-import io.project.app.dto.FileDTO;
 import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,8 +32,8 @@ public class FileService {
     @Autowired
     private FileStorageService fileStorageUtil;
 
-    public FileDTO findUserFileId(String userId) {
-        FileDTO fileDTO = new FileDTO();
+    public FileRequest findUserFileId(String userId) {
+        FileRequest fileDTO = new FileRequest();
         Optional<FileModel> userFile = fileModelRepository.findByUserId(userId);
         if (userFile.isPresent()) {
             //  byte[] savedFile = fileStorageUtil.readFile(userFile.get().getFilePath());
@@ -48,8 +48,8 @@ public class FileService {
 
     }
 
-    public FileDTO findFile(String id) {
-        FileDTO fileDTO = new FileDTO();
+    public FileRequest findFile(String id) {
+        FileRequest fileDTO = new FileRequest();
         Optional<FileModel> userFile = fileModelRepository.findById(id);
         if (userFile.isPresent()) {
             byte[] savedFile = fileStorageUtil.readFile(userFile.get().getFilePath());

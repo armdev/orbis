@@ -1,9 +1,10 @@
 package io.project.app.resources;
 
 import io.micrometer.core.annotation.Timed;
+import io.project.app.api.requests.FileRequest;
+import io.project.app.api.responses.ApiResponseMessage;
 import io.project.app.domain.FileModel;
-import io.project.app.dto.ApiResponseMessage;
-import io.project.app.dto.FileDTO;
+
 import io.project.app.services.FileService;
 import io.project.app.services.FileStorageService;
 import java.util.Date;
@@ -45,7 +46,7 @@ public class FileStorageResource {
     @CrossOrigin
     @Transactional
     public ResponseEntity<?> put(
-            @RequestBody(required = true) FileDTO fileDTO
+            @RequestBody(required = true) FileRequest fileDTO
     ) {
 
         // decode file byte array 
@@ -90,7 +91,7 @@ public class FileStorageResource {
     ) {
 
         log.info("!get user id " + id);
-        FileDTO userFile = fileService.findUserFileId(id);
+        FileRequest userFile = fileService.findUserFileId(id);
 
         log.info("!get user avatar file " + userFile.getFileName());
 
@@ -105,7 +106,7 @@ public class FileStorageResource {
             @RequestParam(name = "id", required = true) String id
     ) {
 
-        FileDTO userFile = fileService.findFile(id);
+        FileRequest userFile = fileService.findFile(id);
 
         log.info("get file " + userFile.getFileName());
 

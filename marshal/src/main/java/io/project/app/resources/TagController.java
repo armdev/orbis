@@ -1,7 +1,7 @@
 package io.project.app.resources;
 
+import io.project.app.api.responses.TagApiResponse;
 import io.project.app.domain.Tag;
-import io.project.app.dto.TagsDTO;
 import io.project.app.repositories.TagRepository;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
@@ -28,7 +28,7 @@ public class TagController {
     @GetMapping(path = "/all", produces = "application/json;charset=UTF-8")
     @CrossOrigin
     public ResponseEntity<?> get() {        
-        TagsDTO searchResultDTO = new TagsDTO();
+        TagApiResponse searchResultDTO = new TagApiResponse();
         final List<Tag> searchResult = tagRepository.findAll();
         searchResultDTO.getTagList().addAll(searchResult);
         return ResponseEntity.status(HttpStatus.OK).body(searchResultDTO);
