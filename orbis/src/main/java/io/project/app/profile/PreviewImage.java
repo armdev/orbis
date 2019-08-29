@@ -1,6 +1,6 @@
 package io.project.app.profile;
 
-import io.project.app.dto.FileDTO;
+import io.project.app.api.requests.FileRequest;
 import io.project.app.unicorn.ProfileClient;
 import io.project.app.util.FacesUtil;
 import java.io.*;
@@ -56,7 +56,7 @@ public class PreviewImage extends HttpServlet implements SingleThreadModel {
             }
         }
         if (fileIdStr != null) {
-            FileDTO file = appManager.getFileById(fileIdStr);
+            FileRequest file = appManager.getFileById(fileIdStr);
             if (file != null) {
                  byte[] content = Base64.decodeBase64(file.getFileContent());
 

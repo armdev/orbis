@@ -4,8 +4,9 @@ import io.project.app.unicorn.AuthClient;
 import io.project.app.security.SessionContext;
 import io.project.app.util.CommonConstants;
 import io.project.app.domain.User;
-import io.project.app.dto.FileDTO;
-import io.project.app.dto.Login;
+import io.project.app.constant.data.AccountType;
+import io.project.app.api.requests.FileRequest;
+import io.project.app.api.requests.LoginRequest;
 import io.project.app.unicorn.ProfileClient;
 
 import java.io.Serializable;
@@ -44,7 +45,7 @@ public class LoginBean implements Serializable {
 
     @Setter
     @Getter
-    private Login loginModel;
+    private LoginRequest loginModel;
     private String ipAddress;
 
     @Inject
@@ -60,7 +61,7 @@ public class LoginBean implements Serializable {
 
     @PostConstruct
     public void init() {
-        loginModel = new Login();
+        loginModel = new LoginRequest();
         user = new User();
         FacesContext context = FacesContext.getCurrentInstance();
         ExternalContext ex = context.getExternalContext();
@@ -78,7 +79,7 @@ public class LoginBean implements Serializable {
         if (user.getStatus().equals(CommonConstants.ACTIVATED)) {
             sessionContext.setUser(user);
             LOGGER.info("##LoginBean findUserAvatar");
-            FileDTO findUserAvatar = profileClient.findUserAvatar(user.getId());
+            FileRequest findUserAvatar = profileClient.findUserAvatar(user.getId());
 
             if (findUserAvatar.getId() != null) {
                 LOGGER.info("###user avatar id is " + findUserAvatar.getId());
@@ -116,6 +117,11 @@ public class LoginBean implements Serializable {
         } else {
             return "fail";
         }
+    }
+    
+    
+    public AccountType[] getAccountList() {
+        return AccountType.values();
     }
 
     public void validatePassword(ComponentSystemEvent event) {

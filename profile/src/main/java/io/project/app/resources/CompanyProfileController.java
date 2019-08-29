@@ -25,9 +25,9 @@ import java.util.Optional;
  * @author armena
  */
 @RestController
-@RequestMapping("/api/v2/profiles")
+@RequestMapping("/api/v2/organization")
 @Slf4j
-public class ProfileController {
+public class CompanyProfileController {
 
     @Autowired
     private UserService userService;
@@ -36,7 +36,7 @@ public class ProfileController {
     @CrossOrigin
     @Timed
     public ResponseEntity<?> put(@RequestBody User user) {
-         log.info("Started user update");
+        log.info("Started user update");
         if (user.getId() != null) {
             Optional<User> findUser = userService.findUser(user.getId());
             if (findUser.isPresent()) {

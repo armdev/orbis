@@ -276,18 +276,18 @@ services:
     networks:
       - orbis
       
-  orbis:    
-    image: orbis 
-    build: ./orbis                
-    container_name: orbis
-    links:      
-      - zuul     
-    volumes:
-     - /opt/orbis/logs/:/opt/orbis/logs
-    ports:
-     - '9595:8080'  
-    networks:
-     - orbis
+#  orbis:    
+#    image: orbis 
+#    build: ./orbis                
+#    container_name: orbis
+#    links:      
+#      - zuul     
+#    volumes:
+#     - /opt/orbis/logs/:/opt/orbis/logs
+#    ports:
+#     - '9595:8080'  
+#    networks:
+#     - orbis
 
 
 networks:

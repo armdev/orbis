@@ -2,7 +2,7 @@ package io.project.app.unicorn;
 
 import io.project.app.domain.Answer;
 import io.project.app.domain.Question;
-import io.project.app.dto.QuestionDTO;
+import io.project.app.api.responses.QuestionApiResponse;
 import io.project.app.util.GsonConverter;
 import java.io.IOException;
 import java.io.Serializable;
@@ -60,9 +60,9 @@ public class QuestionClient implements Serializable {
         return model;
     }
 
-    public QuestionDTO findAllQuestions() {
+    public QuestionApiResponse findAllQuestions() {
         LOG.info("Find All Questions ");
-        QuestionDTO model = new QuestionDTO();
+        QuestionApiResponse model = new QuestionApiResponse();
         long startTime = System.currentTimeMillis();
         try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
             HttpGet request = new HttpGet(BASE_URL + "/marshal/api/v2/questions/find/all");
@@ -71,7 +71,7 @@ public class QuestionClient implements Serializable {
             response.addHeader("content-type", "application/json;charset=UTF-8");
             try (CloseableHttpResponse httpResponse = httpClient.execute(request)) {
                 if (httpResponse.getStatusLine().getStatusCode() == 200) {
-                    model = GsonConverter.fromJson(EntityUtils.toString(httpResponse.getEntity()), QuestionDTO.class);
+                    model = GsonConverter.fromJson(EntityUtils.toString(httpResponse.getEntity()), QuestionApiResponse.class);
                 }
             }
             long elapsedTime = System.currentTimeMillis() - startTime;
@@ -82,9 +82,9 @@ public class QuestionClient implements Serializable {
         return model;
     }
 
-    public QuestionDTO findAllUserQuestions(String id) {
+    public QuestionApiResponse findAllUserQuestions(String id) {
         LOG.info("Find Questions for user ");
-        QuestionDTO model = new QuestionDTO();
+        QuestionApiResponse model = new QuestionApiResponse();
         long startTime = System.currentTimeMillis();
         try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
             HttpGet request = new HttpGet(BASE_URL + "/marshal/api/v2/questions/find/user/questions?id=" + id);
@@ -93,7 +93,7 @@ public class QuestionClient implements Serializable {
             response.addHeader("content-type", "application/json;charset=UTF-8");
             try (CloseableHttpResponse httpResponse = httpClient.execute(request)) {
                 if (httpResponse.getStatusLine().getStatusCode() == 200) {
-                    model = GsonConverter.fromJson(EntityUtils.toString(httpResponse.getEntity()), QuestionDTO.class);
+                    model = GsonConverter.fromJson(EntityUtils.toString(httpResponse.getEntity()), QuestionApiResponse.class);
                 }
             }
             long elapsedTime = System.currentTimeMillis() - startTime;

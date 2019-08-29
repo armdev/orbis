@@ -1,6 +1,6 @@
-package io.project.app.dto;
+package io.project.app.api.responses;
 
-import io.project.app.domain.Question;
+import io.project.app.domain.Tag;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,10 +19,10 @@ import lombok.ToString;
 @ToString
 @EqualsAndHashCode
 @AllArgsConstructor
-public class SearchResultDTO implements Serializable {
+public class TagApiResponse implements Serializable {
 
     private static final long serialVersionUID = 1L;
     
-    private List<Question> questionList = new ArrayList<>();
+    private List<Tag> tagList = new ArrayList<>();
   
 }

@@ -1,6 +1,6 @@
 package io.project.app.unicorn;
 
-import io.project.app.dto.SearchResultDTO;
+import io.project.app.api.responses.SearchApiResponse;
 import io.project.app.util.GsonConverter;
 import java.io.IOException;
 import java.io.Serializable;
@@ -34,9 +34,9 @@ public class SearchClient implements Serializable {
         LOG.info("SearchClient called");
     }
 
-    public SearchResultDTO search(String tag) {
+    public SearchApiResponse search(String tag) {
         LOG.info("search by tag " + tag);
-        SearchResultDTO model = new SearchResultDTO();
+        SearchApiResponse model = new SearchApiResponse();
         long startTime = System.currentTimeMillis();
         try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
             HttpGet request = new HttpGet(BASE_URL + "/marshal/api/v2/search/full?tag=" + tag);
@@ -45,7 +45,7 @@ public class SearchClient implements Serializable {
             response.addHeader("content-type", "application/json;charset=UTF-8");
             try (CloseableHttpResponse httpResponse = httpClient.execute(request)) {
                 if (httpResponse.getStatusLine().getStatusCode() == 200) {
-                    model = GsonConverter.fromJson(EntityUtils.toString(httpResponse.getEntity()), SearchResultDTO.class);
+                    model = GsonConverter.fromJson(EntityUtils.toString(httpResponse.getEntity()), SearchApiResponse.class);
                 }
             }
             long elapsedTime = System.currentTimeMillis() - startTime;

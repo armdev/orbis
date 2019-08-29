@@ -1,7 +1,7 @@
 package io.project.app.unicorn;
 
 import io.project.app.domain.User;
-import io.project.app.dto.Login;
+import io.project.app.api.requests.LoginRequest;
 import io.project.app.util.GsonConverter;
 import java.io.IOException;
 import java.io.Serializable;
@@ -83,7 +83,7 @@ public class AuthClient implements Serializable {
     }
 
     @SuppressWarnings("unchecked")
-    public User userLogin(Login model) {
+    public User userLogin(LoginRequest model) {
         LOG.info("User login: called ");
         User returnedModel = new User();
         try (CloseableHttpClient httpClient = HttpClients.createDefault()) {

@@ -1,6 +1,6 @@
 package io.project.app.profile;
 
-import io.project.app.dto.FileDTO;
+import io.project.app.api.requests.FileRequest;
 import io.project.app.security.SessionContext;
 import io.project.app.unicorn.ProfileClient;
 import java.io.IOException;
@@ -38,7 +38,7 @@ public class FileUploadBean implements Serializable {
     
     private FacesContext context = null;
     private ExternalContext externalContext = null;
-    private FileDTO fileDTO;
+    private FileRequest fileDTO;
     
     public FileUploadBean() {
         
@@ -48,7 +48,7 @@ public class FileUploadBean implements Serializable {
     public void init() {
         context = FacesContext.getCurrentInstance();
         externalContext = context.getExternalContext();
-        fileDTO = new FileDTO();
+        fileDTO = new FileRequest();
         
     }
     

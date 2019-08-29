@@ -1,8 +1,8 @@
 package io.project.app.unicorn;
 
 import io.project.app.domain.User;
-import io.project.app.dto.FileDTO;
-import io.project.app.dto.PasswordUpdate;
+import io.project.app.api.requests.FileRequest;
+import io.project.app.api.requests.PasswordUpdateRequest;
 import io.project.app.util.GsonConverter;
 import java.io.IOException;
 import java.io.Serializable;
@@ -39,8 +39,8 @@ public class ProfileClient implements Serializable {
         LOG.info("ProfileClient called");
     }
 
-    public FileDTO findUserAvatar(String id) {
-        FileDTO fileDTO = new FileDTO();
+    public FileRequest findUserAvatar(String id) {
+        FileRequest fileDTO = new FileRequest();
         try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
             LOG.info("#####FindUserAvatar file started ");
             HttpGet request = new HttpGet(BASE_URL + "/box/api/v2/documents/user/avatar?id=" + id);
@@ -52,7 +52,7 @@ public class ProfileClient implements Serializable {
             try (CloseableHttpResponse httpResponse = httpClient.execute(request)) {
                 LOG.info("FindUserAvatar file  status code " + httpResponse.getStatusLine().getStatusCode());
                 if (httpResponse.getStatusLine().getStatusCode() == 200) {
-                    fileDTO = GsonConverter.fromJson(EntityUtils.toString(httpResponse.getEntity()), FileDTO.class);
+                    fileDTO = GsonConverter.fromJson(EntityUtils.toString(httpResponse.getEntity()), FileRequest.class);
                     LOG.info("#######File name is " + fileDTO.getFileName());
                     LOG.info("#########File id is " + fileDTO.getId());
                 }
@@ -65,8 +65,8 @@ public class ProfileClient implements Serializable {
         return fileDTO;
     }
 
-    public FileDTO getFileById(String id) {
-        FileDTO fileDTO = new FileDTO();
+    public FileRequest getFileById(String id) {
+        FileRequest fileDTO = new FileRequest();
         try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
             LOG.info("getFileById file started ");
             HttpGet request = new HttpGet(BASE_URL + "/box/api/v2/documents?id=" + id);
@@ -78,7 +78,7 @@ public class ProfileClient implements Serializable {
             try (CloseableHttpResponse httpResponse = httpClient.execute(request)) {
                 LOG.info("Get file  status code " + httpResponse.getStatusLine().getStatusCode());
                 if (httpResponse.getStatusLine().getStatusCode() == 200) {
-                    fileDTO = GsonConverter.fromJson(EntityUtils.toString(httpResponse.getEntity()), FileDTO.class);
+                    fileDTO = GsonConverter.fromJson(EntityUtils.toString(httpResponse.getEntity()), FileRequest.class);
                 }
             }
             long elapsedTime = System.currentTimeMillis() - startTime;
@@ -89,8 +89,8 @@ public class ProfileClient implements Serializable {
         return fileDTO;
     }
 
-    public FileDTO deleteFile(String id) {
-        FileDTO fileDTO = new FileDTO();
+    public FileRequest deleteFile(String id) {
+        FileRequest fileDTO = new FileRequest();
         try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
             LOG.info("Upload file started ");
             HttpDelete request = new HttpDelete(BASE_URL + "/box/api/v2/documents?id=" + id);
@@ -102,7 +102,7 @@ public class ProfileClient implements Serializable {
             try (CloseableHttpResponse httpResponse = httpClient.execute(request)) {
                 LOG.info("delete file  status code " + httpResponse.getStatusLine().getStatusCode());
                 if (httpResponse.getStatusLine().getStatusCode() == 200) {
-                    fileDTO = GsonConverter.fromJson(EntityUtils.toString(httpResponse.getEntity()), FileDTO.class);
+                    fileDTO = GsonConverter.fromJson(EntityUtils.toString(httpResponse.getEntity()), FileRequest.class);
                 }
             }
             long elapsedTime = System.currentTimeMillis() - startTime;
@@ -113,7 +113,7 @@ public class ProfileClient implements Serializable {
         return fileDTO;
     }
 
-    public String saveFile(FileDTO fileDTO) {
+    public String saveFile(FileRequest fileDTO) {
         String fileId = null;
         try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
             LOG.info("Upload file started ");
@@ -176,7 +176,7 @@ public class ProfileClient implements Serializable {
             LOG.info("Change Password called ");
             HttpPut request = new HttpPut(BASE_URL + "/profile/api/v2/profiles/user/password");
 
-            PasswordUpdate passwordUpdate = new PasswordUpdate(id, password);
+            PasswordUpdateRequest passwordUpdate = new PasswordUpdateRequest(id, password);
             String toJson = GsonConverter.toJson(passwordUpdate);
             StringEntity params = new StringEntity(toJson, "UTF-8");
             request.addHeader("content-type", "application/json;charset=UTF-8");

@@ -3,8 +3,8 @@ package io.project.app.shipment;
 
 import io.project.app.domain.Parcel;
 import io.project.app.domain.Shipment;
-import io.project.app.dto.EquipmentType;
-import io.project.app.dto.PackageType;
+import io.project.app.constant.data.EquipmentType;
+import io.project.app.constant.data.PackageType;
 import io.project.app.security.SessionContext;
 import io.project.app.unicorn.ShipmentClient;
 import java.io.Serializable;

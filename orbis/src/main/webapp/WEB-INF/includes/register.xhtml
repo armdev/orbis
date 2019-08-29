@@ -69,7 +69,11 @@
                                    value="#{loginBean.user.mobileno}">  
                     </pe:inputPhone>
                 </div>       
-
+                <div class="ui-g-12" style="padding-top:10px;">                   
+                    <p:selectOneMenu id="equipment" value="#{loginBean.user.accountType}" required="true" caseSensitive="true" style="width:56%;">                           
+                        <f:selectItems value="#{loginBean.accountList}" var="list" itemLabel="#{list.key}"  itemValue="#{list.value}"/>
+                    </p:selectOneMenu>
+                </div>
                 <div class="ui-g-2"></div>                   
                 <div class="ui-g-2"></div>
                 <p:commandButton  ajax="true" action="#{loginBean.registerUser()}" update="registerForm" value="#{i18n.signup}"  />

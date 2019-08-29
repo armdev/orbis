@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package io.project.app.dto;
+package io.project.app.api.requests;
 
 import java.io.Serializable;
 import lombok.AllArgsConstructor;
@@ -21,7 +21,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @EqualsAndHashCode
 @ToString
-public class PasswordUpdate implements Serializable{
+public class PasswordUpdateRequest implements Serializable{
     
     private String id;
     private String password;

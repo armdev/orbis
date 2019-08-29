@@ -1,7 +1,7 @@
 package io.project.app.unicorn;
 
-import io.project.app.dto.SearchResultDTO;
-import io.project.app.dto.TagsDTO;
+import io.project.app.api.responses.SearchApiResponse;
+import io.project.app.api.responses.TagApiResponse;
 import io.project.app.util.GsonConverter;
 import java.io.IOException;
 import java.io.Serializable;
@@ -35,9 +35,9 @@ public class TagClient implements Serializable {
         LOG.info("TagClient called");
     }
 
-    public TagsDTO findAllTags() {
+    public TagApiResponse findAllTags() {
         LOG.info("Find All tags ");
-        TagsDTO model = new TagsDTO();
+        TagApiResponse model = new TagApiResponse();
         long startTime = System.currentTimeMillis();
         try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
             HttpGet request = new HttpGet(BASE_URL + "/marshal/api/v2/tags/all");
@@ -46,7 +46,7 @@ public class TagClient implements Serializable {
             response.addHeader("content-type", "application/json;charset=UTF-8");
             try (CloseableHttpResponse httpResponse = httpClient.execute(request)) {
                 if (httpResponse.getStatusLine().getStatusCode() == 200) {
-                    model = GsonConverter.fromJson(EntityUtils.toString(httpResponse.getEntity()), TagsDTO.class);
+                    model = GsonConverter.fromJson(EntityUtils.toString(httpResponse.getEntity()), TagApiResponse.class);
                 }
             }
             long elapsedTime = System.currentTimeMillis() - startTime;
@@ -57,9 +57,9 @@ public class TagClient implements Serializable {
         return model;
     }
 
-    public SearchResultDTO searchByTag(String tag) {
+    public SearchApiResponse searchByTag(String tag) {
         LOG.info("searchByTag By tag " + tag);
-        SearchResultDTO model = new SearchResultDTO();
+        SearchApiResponse model = new SearchApiResponse();
         long startTime = System.currentTimeMillis();
         try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
             HttpGet request = new HttpGet(BASE_URL + "/marshal/api/v2/search/full?tag=" + tag);
@@ -68,7 +68,7 @@ public class TagClient implements Serializable {
             response.addHeader("content-type", "application/json;charset=UTF-8");
             try (CloseableHttpResponse httpResponse = httpClient.execute(request)) {
                 if (httpResponse.getStatusLine().getStatusCode() == 200) {
-                    model = GsonConverter.fromJson(EntityUtils.toString(httpResponse.getEntity()), SearchResultDTO.class);
+                    model = GsonConverter.fromJson(EntityUtils.toString(httpResponse.getEntity()), SearchApiResponse.class);
                 }
             }
             long elapsedTime = System.currentTimeMillis() - startTime;

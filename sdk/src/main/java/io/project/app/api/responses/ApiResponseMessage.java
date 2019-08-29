@@ -1,4 +1,4 @@
-package io.project.app.dto;
+package io.project.app.api.responses;
 
 import java.io.Serializable;
 import lombok.AllArgsConstructor;

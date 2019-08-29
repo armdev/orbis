@@ -2,7 +2,7 @@ package io.project.app.tags;
 
 import io.project.app.domain.Question;
 import io.project.app.domain.Tag;
-import io.project.app.dto.SearchResultDTO;
+import io.project.app.api.responses.SearchApiResponse;
 import io.project.app.security.SessionContext;
 import io.project.app.unicorn.SearchClient;
 import io.project.app.unicorn.TagClient;
@@ -67,7 +67,7 @@ public class TagsBean implements Serializable {
         TagCloudItem item = (TagCloudItem) event.getObject();
         FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Search with: ", item.getLabel());
         FacesContext.getCurrentInstance().addMessage(null, msg);
-        SearchResultDTO search = searchClient.search(item.getLabel());
+        SearchApiResponse search = searchClient.search(item.getLabel());
         questionList.clear();
         questionList.addAll(search.getQuestionList());
     }

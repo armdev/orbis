@@ -1,4 +1,4 @@
-package io.project.app.dto;
+package io.project.app.api.responses;
 
 import io.project.app.domain.Question;
 import java.io.Serializable;
@@ -19,7 +19,7 @@ import lombok.ToString;
 @ToString
 @EqualsAndHashCode
 @AllArgsConstructor
-public class QuestionDTO implements Serializable {
+public class SearchApiResponse implements Serializable {
 
     private static final long serialVersionUID = 1L;
     
