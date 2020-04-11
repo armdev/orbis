@@ -9,7 +9,7 @@ services:
     ports:
       - '8761:8761'
     volumes:
-      - /opt/eureka/logs/:/opt/eureka/logs
+      - ../logs/eureka:/opt/eureka/logs
     networks:
       - orbis
 
@@ -36,8 +36,7 @@ services:
       - eureka     
     ports:
       - '1111:1111'
-    volumes:
-      - /opt/admin/logs/:/opt/admin/logs
+  
     networks:
       - orbis
 
@@ -48,7 +47,7 @@ services:
     links:
       - eureka 
     volumes:
-      - /opt/zuul/logs/:/opt/zuul/logs     
+      - ../logs/zuul/:/opt/zuul/logs     
     ports:
       - '8079:8079'
     networks:
@@ -59,8 +58,8 @@ services:
     image: mongodb
     container_name: mongodb    
     volumes:
-      - /opt/mongobing/data:/data/db
-      - /opt/mongobing/logs:/data/logs
+      - ../logs/mongobingo/data:/data/db
+      - ../logs/mongobingo/logs:/data/logs
     ports:
       - 27017:27017
     restart: always
@@ -97,7 +96,7 @@ services:
     ports:
       - '4001:4001'
     volumes:
-      - /opt/auth/logs/:/opt/auth/logs
+      - ../logs/auth/:/opt/auth/logs
     networks:
       - orbis
 
@@ -126,8 +125,8 @@ services:
     ports:
       - '4002:4002'
     volumes:
-      - /opt/box/logs/:/opt/box/logs
-      - /opt/filestorage/:/opt/filestorage/
+      - ../logs/box/:/opt/box/logs
+      - ../logs/box/filestorage/:/opt/filestorage/
     networks:
       - orbis
 
@@ -156,7 +155,7 @@ services:
     ports:
       - '4004:4004'
     volumes:
-      - /opt/register/logs/:/opt/register/logs
+      - ../logs/register/logs/:/opt/register/logs
     networks:
       - orbis
       
@@ -186,7 +185,7 @@ services:
     ports:
       - '4006:4006'
     volumes:
-      - /opt/profile/logs/:/opt/profile/logs
+      - ../logs/profile/logs/:/opt/profile/logs
     networks:
       - orbis
       
@@ -214,7 +213,7 @@ services:
     ports:
       - '4007:4007'
     volumes:
-      - /opt/marshal/logs/:/opt/marshal/logs
+      - ../logs/marshal/logs/:/opt/marshal/logs
     networks:
       - orbis
       
@@ -243,7 +242,7 @@ services:
     ports:
       - '4003:4003'
     volumes:
-      - /opt/payment/logs/:/opt/payment/logs
+      - ../logs/payment/logs/:/opt/payment/logs
     networks:
       - orbis
       
@@ -272,22 +271,22 @@ services:
     ports:
       - '4005:4005'
     volumes:
-      - /opt/shipment/logs/:/opt/shipment/logs
+      - ../logs/shipment/logs/:/opt/shipment/logs
     networks:
       - orbis
       
-#  orbis:    
-#    image: orbis 
-#    build: ./orbis                
-#    container_name: orbis
-#    links:      
-#      - zuul     
-#    volumes:
-#     - /opt/orbis/logs/:/opt/orbis/logs
-#    ports:
-#     - '9595:8080'  
-#    networks:
-#     - orbis
+  orbis:    
+    image: orbis 
+    build: ./orbis                
+    container_name: orbis
+    links:      
+      - zuul     
+    volumes:
+     - ../logs/orbis/logs/:/opt/orbis/logs
+    ports:
+     - '9595:8080'  
+    networks:
+     - orbis
 
 
 networks:
