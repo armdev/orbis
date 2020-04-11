@@ -1,7 +1,26 @@
 version: "3.3"
 
-services:  
+services:
 
+  mongodb:      
+    build: ./mongodb
+    image: mongodb
+    container_name: mongodb    
+    volumes:
+      - ./../logs/mongobingo/data:/data/db
+      - ./../logs/mongobingo/logs:/data/logs
+    ports:
+      - 27017:27017
+    restart: always
+    environment:
+      - MONGO_INITDB_ROOT_PASSWORD=Abcdf
+      - MONGO_INITDB_ROOT_USERNAME=BingoBongo
+    command: mongod
+    networks:
+      orbis:
+        aliases:
+          - orbis
+          
   eureka:
     image: eureka   
     build: ./eureka
@@ -28,10 +47,9 @@ services:
         delay: 5s
         max_attempts: 3
         window: 120s
-    links:  
-     
+    links:      
       - eureka
-    depends_on:     
+    depends_on:    
       
       - eureka     
     ports:
@@ -53,24 +71,6 @@ services:
     networks:
       - orbis
 
-  mongodb:      
-    build: ./mongodb
-    image: mongodb
-    container_name: mongodb    
-    volumes:
-      - ../logs/mongobingo/data:/data/db
-      - ../logs/mongobingo/logs:/data/logs
-    ports:
-      - 27017:27017
-    restart: always
-    environment:
-      - MONGO_INITDB_ROOT_PASSWORD=Abcdf
-      - MONGO_INITDB_ROOT_USERNAME=BingoBongo
-    command: mongod
-    networks:
-      orbis:
-        aliases:
-          - mongodb
 
   auth:
     image: auth   

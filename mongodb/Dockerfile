@@ -1,5 +1,5 @@
 FROM mongo:4
-MAINTAINER armen
+MAINTAINER Armen Arzumanyan
 
 # Add mongo user
 RUN groupadd -r mongo && \

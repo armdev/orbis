@@ -64,7 +64,7 @@ public class UserService {
         log.info("doSearch: Starting filter");
         Query query = new Query();
 
-        query.with(new Sort(new Sort.Order(Sort.Direction.DESC, "id")));
+        //query.with(new Sort(new Sort.Order(Sort.Direction.DESC, "id")));
         query.addCriteria(Criteria.where("age").is(age));
         query.addCriteria(
                 new Criteria().orOperator(
